@@ -1,0 +1,19 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+"psycopg2-binary" = "*"
+dj-database-url = "*"
+requests = "*"
+gpxpy = "*"
+
+[dev-packages]
+ipython = "*"
+jupyterlab = "*"
+django-extensions = "*"
+
+[requires]
+python_version = "3.6"

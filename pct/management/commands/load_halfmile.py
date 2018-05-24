@@ -26,6 +26,11 @@ class Command(BaseCommand):
                             description=waypoint.description or "",
                             elevation=waypoint.elevation,
                             symbol=waypoint.symbol,
+                            type=(
+                                HalfmileWaypoint.MILE_TYPE
+                                if waypoint.symbol == "Triangle, Red"
+                                else HalfmileWaypoint.POI_TYPE
+                            ),
                         ),
                     )
                 print(f"Updated {state} section {section}")

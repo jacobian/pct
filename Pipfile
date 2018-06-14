@@ -9,6 +9,7 @@ django = "*"
 dj-database-url = "*"
 requests = "*"
 gpxpy = "*"
+pillow = "*"
 
 [dev-packages]
 ipython = "*"

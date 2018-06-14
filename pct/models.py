@@ -51,9 +51,44 @@ class Update(models.Model):
 
     timestamp = models.DateTimeField(default=timezone.now)
     point = PointField(blank=True, null=True)
+    closest_mile = models.ForeignKey(
+        HalfmileWaypoint,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+    closest_poi = models.ForeignKey(
+        HalfmileWaypoint,
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
+    def save(self, *args, **kwargs):
+        if self.point:
+            self.closest_mile = HalfmileWaypoint.objects.closest_to(
+                self.point, type=HalfmileWaypoint.MILE_TYPE
+            )
+            self.closest_poi = HalfmileWaypoint.objects.closest_to(
+                self.point, type=HalfmileWaypoint.POI_TYPE
+            )
+        super().save(*args, **kwargs)
+
+    @property
+    def location_name(self):
+        if self.closest_poi:
+            loc = self.closest_poi.name
+        elif self.closest_mile:
+            loc = self.closest_mile.name
+        elif self.point:
+            loc = str(self.point)
+        else:
+            loc = str(self.timestamp)
 
     def __str__(self):
-        return f"{self.__class__.__name__} at {self.timestamp}"
+        return f"{self.__class__.__name__} at {self.location_name}"
 
 
 class Post(Update):
@@ -62,8 +97,16 @@ class Post(Update):
 
 
 class Location(Update):
-    pass
+
+    def __str__(self):
+        return f"At {self.location_name}"
 
 
-# class Photo(Update):
-# class Gallery(Update): pass
+class Gallery(Update):
+    title = models.TextField(blank=True)
+    text = models.TextField(blank=True)
+
+
+class Photo(models.Model):
+    photo = models.ImageField(upload_to="photos")
+    gallery = models.ForeignKey(Gallery, related_name="photos", on_delete=models.CASCADE)

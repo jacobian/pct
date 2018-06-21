@@ -103,17 +103,9 @@ class Location(Update):
         return f"At {self.location_name}"
 
 
-class Gallery(Update):
-    title = models.TextField(blank=True)
-    text = models.TextField(blank=True)
-
-
-class Photo(models.Model):
-    photo = models.ImageField(upload_to="photos")
-    gallery = models.ForeignKey(
-        Gallery, related_name="photos", on_delete=models.CASCADE
-    )
-
+class InstagramPost(Update):
+    url = models.URLField(max_length=500)
+    raw = JSONField()
 
 class Breadcrumb(models.Model):
     """

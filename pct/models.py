@@ -126,7 +126,14 @@ class Breadcrumb(models.Model):
     point = PointField()
     raw = JSONField()
 
-    # FIXME: maybe add closest mile/POI?
+    # For "OK" checkins, also save as a location.
+    location = models.ForeignKey(
+        Location,
+        blank=True,
+        null=True,
+        related_name="breadcrumbs",
+        on_delete=models.SET_NULL,
+    )
 
     @property
     def latitude(self):

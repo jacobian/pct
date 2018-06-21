@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HalfmileWaypoint, Post, Location
+from .models import HalfmileWaypoint, Post, Location, Gallery, Photo, Breadcrumb
 
 
 @admin.register(HalfmileWaypoint)
@@ -17,4 +17,20 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
+    pass
+
+
+class PhotoInline(admin.StackedInline):
+    model = Photo
+    min_num = 1
+    extra = 1
+
+
+@admin.register(Gallery)
+class GalleryAdmin(admin.ModelAdmin):
+    inlines = [PhotoInline]
+
+
+@admin.register(Breadcrumb)
+class BreadcrumbAdmin(admin.ModelAdmin):
     pass

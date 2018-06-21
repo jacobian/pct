@@ -14,6 +14,7 @@ MAPBOX_TOKEN = "pk.eyJ1IjoiamFjb2JrYXBsYW5tb3NzIiwiYSI6ImNqYnNjbGRrcDB0MmIyd21rb
 ROOT_URLCONF = 'pct.urls'
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', secrets.token_bytes())
 SPATIALITE_LIBRARY_PATH = 'mod_spatialite'
+SPOT_FEED_ID = '0GXMGIjTLtOisB0eFv6qb1xOdMaOx2u5m'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [HERE.parent / 'static']
 TIME_ZONE = 'UTC'

@@ -2,6 +2,7 @@ from django.contrib.gis.db.models import PointField
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
+from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
 
@@ -109,4 +110,31 @@ class Gallery(Update):
 
 class Photo(models.Model):
     photo = models.ImageField(upload_to="photos")
-    gallery = models.ForeignKey(Gallery, related_name="photos", on_delete=models.CASCADE)
+    gallery = models.ForeignKey(
+        Gallery, related_name="photos", on_delete=models.CASCADE
+    )
+
+
+class Breadcrumb(models.Model):
+    """
+    A raw track from the SPOT tracker
+
+    Store this separate from the Location to prevent clutter, and to maybe use to display a live-ish track.
+    """
+    spot_id = models.BigIntegerField(unique=True)
+    timestamp = models.DateTimeField()
+    point = PointField()
+    raw = JSONField()
+
+    # FIXME: maybe add closest mile/POI?
+
+    @property
+    def latitude(self):
+        return self.point.y
+
+    @property
+    def longitude(self):
+        return self.point.x
+
+    def __str__(self):
+        return f"({self.latitude}, {self.longitude}) at {self.timestamp}"

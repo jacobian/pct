@@ -3,10 +3,6 @@
 body {
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-    background-image: url('../images/map.jpg');
-    background-repeat: no-repeat;
-
-    background-attachment: fixed;
 }
 
 a, a:link, a:hover {
@@ -75,14 +71,17 @@ header a:hover {
     margin-top: -0.8rem;
 }
 
-.articles {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+article {
+    margin-bottom: 5rem;
 }
 
-article {
-    margin-left: 40%;
-    margin-bottom: 5rem;
+.map-container {
+    background-image: url('../images/map.jpg');
+    background-repeat: no-repeat;
+}
+
+.article-container {
+    margin-top: 4rem;
 }
 
 footer {
@@ -94,6 +93,6 @@ footer {
 }
 
 .copyright {
-    font-size: 1em;
+    font-size: 1rem;
     font-weight: 100;
 }

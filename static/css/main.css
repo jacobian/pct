@@ -46,15 +46,13 @@ header a:hover {
 .stats {
     background-image: url('../images/elevation.png');
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: 100%;
     background-position-y: bottom;
-
     background-color: #809864;
     color: #fff;
     text-align: center;
     font-weight: 100;
     font-size: 2rem;
-
     border-top: 1px solid #5a6268;
     border-bottom: 1px solid #5a6268;
 }

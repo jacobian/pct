@@ -18,7 +18,9 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", secrets.token_bytes())
 SPATIALITE_LIBRARY_PATH = "mod_spatialite"
 SPOT_FEED_ID = "0GXMGIjTLtOisB0eFv6qb1xOdMaOx2u5m"
 STATIC_URL = "/static/"
+STATIC_ROOT = HERE.parent / "staticfiles"
 STATICFILES_DIRS = [HERE.parent / "static"]
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
@@ -40,6 +42,7 @@ if DEBUG:
     INSTALLED_APPS.append("django_extensions")
 
 MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

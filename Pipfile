@@ -12,6 +12,7 @@ gpxpy = "*"
 pillow = "*"
 python-dateutil = "*"
 django-markdownx = "*"
+whitenoise = "*"
 
 [dev-packages]
 ipython = "*"

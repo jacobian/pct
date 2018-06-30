@@ -13,6 +13,7 @@ pillow = "*"
 python-dateutil = "*"
 django-markdownx = "*"
 whitenoise = "*"
+django-heroku = "*"
 
 [dev-packages]
 ipython = "*"

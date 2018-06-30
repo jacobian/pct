@@ -76,3 +76,17 @@ if "DYNO" in os.environ:
     DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
     GDAL_LIBRARY_PATH = os.path.expandvars(os.getenv("GDAL_LIBRARY_PATH"))
     GEOS_LIBRARY_PATH = os.path.expandvars(os.getenv("GEOS_LIBRARY_PATH"))
+
+    # django-heroku does a bunch of magic I'd prefer not to have, but the logging
+    # config is super-convienient so keep that on
+    import django_heroku
+    django_heroku.settings(
+        locals(),
+        databases=False,
+        test_runner=False,
+        staticfiles=False,
+        allowed_hosts=False,
+        logging=True,
+        secret_key=False,
+    )
+

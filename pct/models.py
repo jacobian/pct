@@ -9,14 +9,16 @@ from django.utils import timezone
 
 class HalfmileWaypointManager(models.Manager):
 
-    def closest_to(self, latitude, longitude, type=None):
-        p = Point(longitude, latitude)
-        qs = self.filter(point__distance_lte=(p, D(mi=100)))
+    def closest_to(self, point, type=None):
+        qs = self.filter(point__distance_lte=(point, D(mi=100)))
         if type:
             qs = qs.filter(type=type)
-        qs = qs.annotate(distance=Distance("point", p))
+        qs = qs.annotate(distance=Distance("point", point))
         qs = qs.order_by("distance")
-        return qs[0]
+        try:
+            return qs[0]
+        except IndexError:
+            return None
 
 
 class HalfmileWaypoint(models.Model):
@@ -106,6 +108,7 @@ class Location(Update):
 class InstagramPost(Update):
     url = models.URLField(max_length=500)
     raw = JSONField()
+
 
 class Breadcrumb(models.Model):
     """

@@ -13,27 +13,39 @@ class Command(BaseCommand):
     help = "load latest breadcrumb data from spot"
 
     def handle(self, *args, **options):
-        # two options:
-        #   A. load messages.json, parse, if we haven't hit a breadcrumb we've seen, go back a page (start=51, etc)
-        #   B. load messages using startDate=date-of-last-message
-        # What I'm not sure of and need to test: does B work if > 50 or do we need start also?
-        #
-        # Just to get this working as a POC, going to ignore that and just load the last 50 points regaurdless
-        # Actually, that means there _is_ a
-        #   C. naievely load last 50 points, and just ensure this runs often enough to get them all!
+        # The SPOT API returns 50 items per page, so we have to paginate back to make sure we got everything.
+        # If this were smarter (possible future improvement), we'd stop paginating once we're into messages
+        # we've already seen. But, that's a bit trickier and I don't want to figure it out yet.
 
+        # Fetch the first page (first 50 messages)
+        response = self._fetch_feed()
+        self._handle_feed(response)
+
+        # That response tells how many messages there are total. Turn that into a list
+        # of pages to fetch. We already got the first page (start=1), so don't re-fetch
+        # that one.
+        pages = range(51, response["totalCount"], 50)
+        for page in pages:
+            response = self._fetch_feed(page)
+            self._handle_feed(response)
+
+    def _fetch_feed(self, start=None):
         url = (
             f"https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/{settings.SPOT_FEED_ID}/message.json"
         )
+        if start:
+            url += f'?start={start}'
         response = requests.get(url).json()["response"]
         if "errors" in response:
             message = "SPOT API ERROR: [{code}] {text}: {description}".format(
                 **response["error"]
             )
             raise CommandError(message)
+        return response["feedMessageResponse"]
 
-        for message in response["feedMessageResponse"]["messages"]["message"]:
-            # Load messages
+    def _handle_feed(self, data):
+        for message in data["messages"]["message"]:
+            # Create or breadcrumbs for location track messages
             if message["messageType"] in BREADCRUMB_MESSAGE_TYPES:
                 crumb, created = Breadcrumb.objects.update_or_create(
                     spot_id=message["id"],
@@ -52,5 +64,5 @@ class Command(BaseCommand):
                     crumb.save()
 
                 if created:
-                    print(self.style.SUCCESS(crumb), end="", file=self.stdout)
+                    self.stdout.write(self.style.SUCCESS(crumb))
 

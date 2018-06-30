@@ -1,0 +1,14 @@
+- detail view (for just certain types? all of them?)
+- different templates for each content type (include of a subtype)
+- test with some real data
+- stats: make them stats not just static
+- test + optimize index view (select_related needed probably)
+- instagram fetching
+- something better with the map display:
+    - slippy map plus points?
+    - green/red line showing progress?
+- top nav: make it exist
+
+MAYBE:
+- fetch from inaturalist api?
+- breadcrumbs: big map display?

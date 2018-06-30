@@ -1,4 +1,5 @@
 from django.contrib import admin
+from markdownx.admin import MarkdownxModelAdmin
 from .models import HalfmileWaypoint, Post, Location, InstagramPost, Breadcrumb
 
 
@@ -11,7 +12,7 @@ class HalfmileWaypointAdmin(admin.ModelAdmin):
 
 
 @admin.register(Post)
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(MarkdownxModelAdmin):
     pass
 
 

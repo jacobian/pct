@@ -5,7 +5,7 @@ from django.contrib.gis.measure import D
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.utils import timezone
-
+from markdownx.models import MarkdownxField
 
 class HalfmileWaypointManager(models.Manager):
 
@@ -96,7 +96,7 @@ class Update(models.Model):
 
 class Post(Update):
     title = models.TextField(blank=True)
-    text = models.TextField()
+    text = MarkdownxField()
 
 
 class Location(Update):

@@ -11,6 +11,7 @@ requests = "*"
 gpxpy = "*"
 pillow = "*"
 python-dateutil = "*"
+django-markdownx = "*"
 
 [dev-packages]
 ipython = "*"

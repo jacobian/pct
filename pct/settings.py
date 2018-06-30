@@ -68,7 +68,11 @@ TEMPLATES = [
     }
 ]
 
-# If we're on Heroku, need to do something special for gis
+# If we're on Heroku, need to do some special stuff to get gis working
+# This is based on the (slightly incorrect) advise from two places:
+# - https://devcenter.heroku.com/articles/postgis
+# - https://github.com/TrailStash/heroku-geo-buildpack
 if "DYNO" in os.environ:
+    DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
     GDAL_LIBRARY_PATH = os.path.expandvars(os.getenv("GDAL_LIBRARY_PATH"))
     GEOS_LIBRARY_PATH = os.path.expandvars(os.getenv("GEOS_LIBRARY_PATH"))

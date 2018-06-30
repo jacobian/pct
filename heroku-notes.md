@@ -7,10 +7,8 @@ heroku create
 heroku addons:add heroku-postgresql:hobby-basic
 ```
 
-Need a special buildpack for gis:
+Initial push, config and database migration:
 
 ```
-heroku buildpacks:set https://github.com/cyberdelia/heroku-geo-buildpack.git
-heroku buildpacks:add heroku/python
-```
-
+git push heroku master
+heroku config:set DJANGO_SECRET_KEY: ...

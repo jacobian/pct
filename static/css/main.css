@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,300,400,500,700,900');
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+a, a:link, a:hover {
+    color: #313131;
+    text-decoration: none;
+}
+
+header {
+    background-color: #000;
+    color: #fff;
+}
+
+header .navbar-brand {
+    font-weight: 900;
+}
+
+header a {
+    color: #fff;
+}
+
+header a:hover {
+    color: #b3d7ff;
+    text-decoration: none;
+}
+
+.navbar-collapse {
+    text-align: right;
+}
+
+.bg-dark {
+    background-color: #000 !important;
+}
+
+.hero {
+    background-image: url('../images/lake.jpg');
+    height: calc(20vw + 65px);
+    max-height: 400px;
+    background-size: 100%;
+}
+
+.stats {
+    background-image: url('../images/elevation.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position-y: bottom;
+    background-color: #809864;
+    color: #fff;
+    text-align: center;
+    font-weight: 100;
+    font-size: 2rem;
+    border-top: 1px solid #5a6268;
+    border-bottom: 1px solid #5a6268;
+}
+
+.stats b {
+    font-weight: 900;
+    font-size: 4rem;
+    display: block;
+    margin-bottom: -1.5rem;
+    margin-top: -0.8rem;
+}
+
+article {
+    margin-bottom: 5rem;
+}
+
+.map-container {
+    background-image: url('../images/map.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.article-container {
+    margin-top: 4rem;
+}
+
+footer {
+    background-color: rgba(41, 69, 93, 0.9);
+    color: #fff;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    text-align: right;
+}
+
+.copyright {
+    font-size: 1rem;
+    font-weight: 100;
+}

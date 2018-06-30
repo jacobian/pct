@@ -18,7 +18,6 @@ django-heroku = "*"
 [dev-packages]
 ipython = "*"
 jupyterlab = "*"
-django-extensions = "*"
 
 [requires]
 python_version = "3.6"

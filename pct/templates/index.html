@@ -5,41 +5,13 @@
 
         </div>
         <div class="col-md-6 article-container">
-            <article>
-                <small>Mile 452, July 25th, 2018</small>
-                <h2>
-                    <a href="">Maecenas faucibus mollis interdum</a>
-                </h2>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec id
-                    elit non mi porta gravida at eget metus. Curabitur blandit tempus porttitor. Donec ullamcorper nulla
-                    non metus auctor fringilla. Maecenas faucibus mollis interdum. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.</p>
+            {% for update in updates %}
+            <article class="{{ update.type }}">
+                <small>Mile {{ update.object.closest_mile }}, {{ update.when }}</small>
+                <h2>{{ update.object }}</h2>
+                <p>(update content would go here)</p>
             </article>
-            <article>
-                <small>Mile 452, July 25th, 2018</small>
-                <h2>
-                    <a href="">Maecenas faucibus mollis interdum</a>
-                </h2>
-                <img src="../../static/images/insta-fpo.png" />
-            </article>
-            <article>
-                <small>Mile 452, July 25th, 2018</small>
-                <h2>
-                    <a href="">Maecenas faucibus mollis interdum</a>
-                </h2>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec id
-                    elit non mi porta gravida at eget metus. Curabitur blandit tempus porttitor. Donec ullamcorper nulla
-                    non metus auctor fringilla. Maecenas faucibus mollis interdum. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.</p>
-            </article>
-            <article>
-                <small>Mile 452, July 25th, 2018</small>
-                <h2>Maecenas faucibus mollis interdum</h2>
-                <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Donec id
-                    elit non mi porta gravida at eget metus. Curabitur blandit tempus porttitor. Donec ullamcorper nulla
-                    non metus auctor fringilla. Maecenas faucibus mollis interdum. Lorem ipsum dolor sit amet, consectetur
-                    adipiscing elit.</p>
-            </article>
+            {% endfor %}
         </div>
     </div>
 </section>

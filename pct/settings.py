@@ -70,5 +70,5 @@ TEMPLATES = [
 
 # If we're on Heroku, need to do something special for gis
 if "DYNO" in os.environ:
-    GDAL_LIBRARY_PATH = os.getenv("GDAL_LIBRARY_PATH")
-    GEOS_LIBRARY_PATH = os.getenv("GEOS_LIBRARY_PATH")
+    GDAL_LIBRARY_PATH = os.path.expandvars(os.getenv("GDAL_LIBRARY_PATH"))
+    GEOS_LIBRARY_PATH = os.path.expandvars(os.getenv("GEOS_LIBRARY_PATH"))

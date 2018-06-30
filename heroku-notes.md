@@ -7,8 +7,18 @@ heroku create
 heroku addons:add heroku-postgresql:hobby-basic
 ```
 
+Use a special GIS buildpack:
+
+```
+heroku buildpacks:set https://github.com/TrailStash/heroku-geo-buildpack
+heroku buildpacks:add heroku/python
+```
+
 Initial push, config and database migration:
 
 ```
 git push heroku master
 heroku config:set DJANGO_SECRET_KEY: ...
+heroku run python manage.py migrate
+heroku run python manage.py load_halfmile
+```

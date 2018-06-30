@@ -68,8 +68,3 @@ TEMPLATES = [
     }
 ]
 
-# If we're on Heroku, need to do something special for gis
-# see https://devcenter.heroku.com/articles/postgis#geodjango-setup
-if "DYNO" in os.environ:
-    GDAL_LIBRARY_PATH = os.getenv("GDAL_LIBRARY_PATH")
-    GEOS_LIBRARY_PATH = os.getenv("GEOS_LIBRARY_PATH")

@@ -5,13 +5,7 @@
 
         </div>
         <div class="col-md-6 article-container">
-            {% for update in updates %}
-            <article class="{{ update.type }}">
-                <small>Mile {{ update.object.closest_mile }}, {{ update.when }}</small>
-                <h2>{{ update.object }}</h2>
-                <p>(update content would go here)</p>
-            </article>
-            {% endfor %}
+            {% for update in updates %} {% include update.template %} {% endfor %}
         </div>
     </div>
 </section>

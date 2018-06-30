@@ -1,5 +1,4 @@
 - detail view (for just certain types? all of them?)
-- different templates for each content type (include of a subtype)
 - test with some real data
 - stats: make them stats not just static
 - test + optimize index view (select_related needed probably)

@@ -8,6 +8,8 @@ def index(request):
         model.__name__.lower(): model.objects.all() for model in Update.__subclasses__()
     }
     recent_updates = combined_recent(50, datetime_field="timestamp", **type_qs_map)
+    for update in recent_updates:
+        update["template"] = f'update_snippets/{update["type"]}.html'
     return render(request, "index.html", {"updates": recent_updates})
 
 

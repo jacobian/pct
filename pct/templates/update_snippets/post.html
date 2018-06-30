@@ -1,0 +1,5 @@
+<article class="post">
+    <small>Mile {{ update.object.closest_mile }}, {{ update.when }}</small>
+    {% if update.object.title %}<h2>{{ update.object.title }}</h2>{% endif %}
+    <p>{{ update.object.html }}</p>
+</article>

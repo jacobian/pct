@@ -79,13 +79,28 @@ class Update(models.Model):
     location_override = models.TextField(blank=True, default="")
 
     def save(self, *args, **kwargs):
-        if self.point:
+        # Attempt to fill in missing location info based on what's there.
+        # If there's a point but no waypoints, try to fill in waypoints based on proximity.
+        # If there's a waypoint but no point, copy the waypoint's location to this.
+        # The order's sneaky: do the waypoint -> point bit first, because that way a
+        # waypoint of one type (POI or mile) will make there be a point, which'll then
+        # fill in the waypoint of the other type.
+        if not self.point:
+            if self.closest_mile:
+                self.point = self.closest_mile.point
+            elif self.closest_poi:
+                self.point = self.closest_poi.point
+
+        if not self.closest_mile:
             self.closest_mile = HalfmileWaypoint.objects.closest_to(
                 self.point, type=HalfmileWaypoint.MILE_TYPE
             )
+
+        if not self.closest_poi:
             self.closest_poi = HalfmileWaypoint.objects.closest_to(
                 self.point, type=HalfmileWaypoint.POI_TYPE
             )
+
         super().save(*args, **kwargs)
 
     @property
@@ -99,7 +114,7 @@ class Update(models.Model):
         elif self.point:
             return str(self.point)
         else:
-            return f"unknown location at {self.timestamp}"
+            return f"unknown location"
 
     def __str__(self):
         return f"{self.__class__.__name__} at {self.location_name}"

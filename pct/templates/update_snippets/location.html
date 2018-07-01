@@ -1,4 +1,9 @@
 <article class="location">
-    <small>Mile {{ update.object.closest_mile }}, {{ update.when }}</small>
-    <h2>{{ update.object.location_name }}</h2>
+    <small>
+        {% if update.object.closest_mile %}
+            Mile {{ update.object.closest_mile }}
+        {% endif %}
+        {{ update.when }}
+    </small>
+    {{ update.object.location_name }}
 </article>

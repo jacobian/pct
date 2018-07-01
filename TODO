@@ -2,7 +2,6 @@
 - test with some real data
 - stats: make them stats not just static
 - test + optimize index view (select_related needed probably)
-- instagram fetching
 - something better with the map display:
     - slippy map plus points?
     - green/red line showing progress?

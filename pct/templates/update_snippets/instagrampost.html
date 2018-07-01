@@ -1,4 +1,9 @@
 <article class="instagram">
-    <small>Mile {{ update.object.closest_mile }}, {{ update.when }}</small>
+    <small>
+        {% if update.object.closest_mile %}
+            Mile {{ update.object.closest_mile }}
+        {% endif %}
+        {{ update.when }}
+    </small>
     {{ update.object.embed_html|safe }}
 </article>

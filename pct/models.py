@@ -8,6 +8,7 @@ from django.utils import timezone
 from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+import requests
 
 
 class HalfmileWaypointManager(models.Manager):
@@ -120,6 +121,7 @@ class Location(Update):
 
 class InstagramPost(Update):
     instagram_id = models.CharField(unique=True, max_length=200)
+    embed_html = models.TextField(blank=True)
     url = models.URLField(max_length=500)
     raw = JSONField()
 

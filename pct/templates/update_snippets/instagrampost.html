@@ -1,4 +1,4 @@
 <article class="instagram">
     <small>Mile {{ update.object.closest_mile }}, {{ update.when }}</small>
-    <h2>{{ update.object }}</h2>
+    {{ update.object.embed_html|safe }}
 </article>

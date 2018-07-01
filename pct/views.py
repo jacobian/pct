@@ -1,6 +1,9 @@
+import datetime
 import json
 import logging
 
+import pytz
+import requests
 from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.exceptions import SuspiciousOperation
@@ -54,9 +57,25 @@ def instagram_hook(request):
         log.warn("No location info for instagram post id=%s", payload["id"])
         point = None
 
-    post = InstagramPost.objects.update_or_create(
+    try:
+        embed_html = requests.get(
+            f'https://api.instagram.com/oembed/?url={payload["link"]}'
+        ).json()["html"]
+    except KeyError:
+        log.warn("Couldn't fetch embed html (no html key)")
+        embed_html = ""
+
+    post, created = InstagramPost.objects.update_or_create(
         instagram_id=payload["id"],
-        defaults={"point": point, "url": payload["link"], "raw": payload},
+        defaults={
+            "point": point,
+            "url": payload["link"],
+            "raw": payload,
+            "timestamp": pytz.utc.localize(
+                datetime.datetime.utcfromtimestamp(int(payload["created_time"]))
+            ),
+            "embed_html": embed_html,
+        },
     )
     return HttpResponse(status=201)
 

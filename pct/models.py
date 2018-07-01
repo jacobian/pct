@@ -39,7 +39,10 @@ class HalfmileWaypoint(models.Model):
     objects = HalfmileWaypointManager()
 
     def __str__(self):
-        return self.name
+        if self.type == HalfmileWaypoint.MILE_TYPE:
+            return "Mile " + self.name.replace("_", ".")
+        else:
+            return self.name
 
     @property
     def latitude(self):
@@ -88,9 +91,9 @@ class Update(models.Model):
         if self.location_override:
             return self.location_override
         elif self.closest_poi:
-            return self.closest_poi.name
+            return str(self.closest_poi)
         elif self.closest_mile:
-            return f'Mile {self.closest_mile.name}'
+            return str(self.closest_mile)
         elif self.point:
             return str(self.point)
         else:

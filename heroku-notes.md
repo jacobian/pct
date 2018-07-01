@@ -22,6 +22,7 @@ heroku config:set DJANGO_SECRET_KEY: ...
 heroku run python manage.py migrate
 heroku run python manage.py load_halfmile
 heroku run python manage.py load_spot
+heroku run python manage.py createsuperuser
 ```
 
 Set up the scheduler:

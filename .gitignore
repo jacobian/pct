@@ -3,3 +3,5 @@
 *.ipynb
 .ipynb_checkpoints/
 staticfiles/
+.pytest_cache/
+.coverage

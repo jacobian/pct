@@ -13,11 +13,12 @@ pillow = "*"
 python-dateutil = "*"
 django-markdownx = "*"
 whitenoise = "*"
-django-heroku = "*"
+pytest-cov = "*"
 
 [dev-packages]
 ipython = "*"
 jupyterlab = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.6"

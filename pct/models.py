@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
+
 class HalfmileWaypointManager(models.Manager):
 
     def closest_to(self, point, type=None):
@@ -70,6 +71,7 @@ class Update(models.Model):
         on_delete=models.SET_NULL,
         related_name="+",
     )
+    location_override = models.TextField(blank=True, default="")
 
     def save(self, *args, **kwargs):
         if self.point:
@@ -83,14 +85,16 @@ class Update(models.Model):
 
     @property
     def location_name(self):
-        if self.closest_poi:
-            loc = self.closest_poi.name
+        if self.location_override:
+            return self.location_override
+        elif self.closest_poi:
+            return self.closest_poi.name
         elif self.closest_mile:
-            loc = self.closest_mile.name
+            return f'Mile {self.closest_mile.name}'
         elif self.point:
-            loc = str(self.point)
+            return str(self.point)
         else:
-            loc = str(self.timestamp)
+            return f"unknown location at {self.timestamp}"
 
     def __str__(self):
         return f"{self.__class__.__name__} at {self.location_name}"
@@ -103,6 +107,7 @@ class Post(Update):
     @property
     def html(self):
         return mark_safe(markdownify(self.text))
+
 
 class Location(Update):
 

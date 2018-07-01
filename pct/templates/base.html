@@ -75,5 +75,11 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
 <script src="{% static 'bootstrap-4/js/bootstrap.min.js' %}"></script>
-
+<script>
+    // gross hack to work around not being able to apply classes to markdown tables,
+    // and bootstrap requiring those classes
+    $(function() {
+        $("article.post table").addClass("table table-striped");
+    });
+</script>
 </html>

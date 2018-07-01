@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="container mt-5">
-    <small>
-        {% if post.closest_mile %}
-            Mile {{ post.closest_mile }}
-        {% endif %}
-        {{ post.timestamp }}
-    </small>
-    {% if post.title %}<h2>{{ post.title }}</h2>{% endif %}
-    <p>{{ post.html }}</p>
+    <article class="post">
+        <small>
+            {% if post.closest_mile %}
+                Mile {{ post.closest_mile }}
+            {% endif %}
+            {{ post.timestamp }}
+        </small>
+        {% if post.title %}<h2>{{ post.title }}</h2>{% endif %}
+        {{ post.html }}
+    </article>
 </section>
 {% endblock content %}

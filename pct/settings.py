@@ -13,6 +13,7 @@ LANGUAGE_CODE = "en-us"
 MAPBOX_TOKEN = (
     "pk.eyJ1IjoiamFjb2JrYXBsYW5tb3NzIiwiYSI6ImNqYnNjbGRrcDB0MmIyd21rbXRzc3V0b3YifQ.4Kz9dKc86l528aaoiegTqA"
 )
+MARKDOWNX_MARKDOWN_EXTENSIONS = ["extra", "sane_lists"]
 ROOT_URLCONF = "pct.urls"
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", secrets.token_bytes())
 SPOT_FEED_ID = "0GXMGIjTLtOisB0eFv6qb1xOdMaOx2u5m"

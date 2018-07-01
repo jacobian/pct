@@ -6,5 +6,6 @@ from . import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.index),
+    path("instagram-hook/", views.instagram_hook),
     path("markdownx/", include(markdownx.urls)),
 ]

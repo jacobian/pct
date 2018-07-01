@@ -1,6 +1,18 @@
-from django.db.models import Value, CharField
+import json
+import logging
+
+from django.conf import settings
+from django.contrib.gis.geos import Point
+from django.core.exceptions import SuspiciousOperation
+from django.db.models import CharField, Value
+from django.http import HttpResponse
 from django.shortcuts import render
-from .models import Update
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+from .models import InstagramPost, Update
+
+log = logging.getLogger(__name__)
 
 
 def index(request):
@@ -11,6 +23,44 @@ def index(request):
     for update in recent_updates:
         update["template"] = f'update_snippets/{update["type"]}.html'
     return render(request, "index.html", {"updates": recent_updates})
+
+
+@require_POST
+@csrf_exempt
+def instagram_hook(request):
+    """
+    Recieve a Zapier webhook about a new Instagram post
+
+    The Zap is configured pretty simply: Instagram -> Webhook, passing (as JSON)
+    the full body of the Instagram post (see data/sample-instagram-payload.json).
+    The only small trick is that I created an X-Zapier-Secret header in
+    Zapier with a shared secret that this view checks against the one in
+    settings. This prevents someone who reads this code from spaming the
+    real API.
+
+    This is way easier than trying to interact iwth the Instagram API directly
+    (and also doesn't require Facebook to approve my API use). I wish Instagram
+    offered a personal API, but this is close enough I guess.
+    """
+    if request.META["HTTP_X_ZAPIER_SECRET"] != settings.ZAPIER_WEBOOK_SECRET:
+        raise SuspiciousOperation("Zapier secret header didn't match")
+
+    payload = json.load(request)
+
+    try:
+        point = Point(
+            float(payload["location"]["longitude"]),
+            float(payload["location"]["latitude"]),
+        )
+    except KeyError:
+        log.warn("No location info for instagram post id=%s", payload["id"])
+        point = None
+
+    post = InstagramPost.objects.update_or_create(
+        instagram_id=payload["id"],
+        defaults={"point": point, "url": payload["link"], "raw": payload},
+    )
+    return HttpResponse(status=201)
 
 
 # From https://simonwillison.net/2018/Mar/25/combined-recent-additions/

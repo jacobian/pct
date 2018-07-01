@@ -25,6 +25,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 WSGI_APPLICATION = "pct.wsgi.application"
+ZAPIER_WEBOOK_SECRET = os.environ.get("ZAPIER_WEBHOOK_SECRET", "secret")
 
 INSTALLED_APPS = [
     "django.contrib.admin",

@@ -119,6 +119,7 @@ class Location(Update):
 
 
 class InstagramPost(Update):
+    instagram_id = models.CharField(unique=True, max_length=200)
     url = models.URLField(max_length=500)
     raw = JSONField()
 

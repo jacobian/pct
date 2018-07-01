@@ -2,6 +2,7 @@ from django.contrib import admin
 from markdownx.admin import MarkdownxModelAdmin
 from .models import HalfmileWaypoint, Post, Location, InstagramPost, Breadcrumb
 from django import forms
+from django.contrib.gis.db.models import PointField
 
 _base_update_fields = [
     "timestamp",
@@ -16,10 +17,11 @@ _base_update_list_display = ["timestamp", "location_name"]
 
 @admin.register(HalfmileWaypoint)
 class HalfmileWaypointAdmin(admin.ModelAdmin):
-    list_display = ["name", "latitude", "longitude"]
+    list_display = ["name", "type", "latitude", "longitude", "elevation", "description"]
     list_filter = ["type"]
     ordering = ["name"]
     search_fields = ["name"]
+    readonly_fields = ["name", "description", "type", "elevation", "symbol", "point"]
 
 
 class PostForm(forms.ModelForm):
@@ -56,9 +58,10 @@ class InstagramPostAdmin(admin.ModelAdmin):
 @admin.register(Breadcrumb)
 class BreadcrumbAdmin(admin.ModelAdmin):
     list_display = ["point_display", "timestamp"]
-    readonly_fields = ["spot_id", "raw"]
+    readonly_fields = ["spot_id", "raw", "point", "timestamp"]
     ordering = ["-timestamp"]
     date_hierarchy = "timestamp"
+    formfield_overrides = {PointField: {"widget": forms.TextInput()}}
 
     def point_display(self, breadcrumb):
         return f"({breadcrumb.latitude}, {breadcrumb.longitude})"

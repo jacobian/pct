@@ -47,12 +47,10 @@ def instagram_hook(request):
 
     payload = json.load(request)
 
-    try:
-        point = Point(
-            float(payload["location"]["longitude"]),
-            float(payload["location"]["latitude"]),
-        )
-    except KeyError:
+    location = payload.get("location", None)
+    if location and "longitude" in location and "latitude" in location:
+        point = Point(float(location["longitude"]), float(location["latitude"]))
+    else:
         log.warn("No location info for instagram post id=%s", payload["id"])
         point = None
 

@@ -10,6 +10,10 @@ from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
 
+# Where is Canda in trail miles?
+# This could be determined from the data but w/e this is easy.
+CANADA_MILE = 2652.6
+
 
 class HalfmileWaypointManager(models.Manager):
 
@@ -41,7 +45,7 @@ class HalfmileWaypoint(models.Model):
 
     def __str__(self):
         if self.type == HalfmileWaypoint.MILE_TYPE:
-            return "Mile " + self.name.replace("_", ".")
+            return "Mile " + self.name.replace("-", ".")
         else:
             return self.name
 
@@ -182,3 +186,53 @@ class Breadcrumb(models.Model):
 
     def __str__(self):
         return f"({self.latitude}, {self.longitude}) at {self.timestamp}"
+
+
+class DailyStatsManager(models.Manager):
+
+    def update_or_create_for_date(self, date):
+        if date > timezone.now().date():
+            raise ValueError("Can't create stats for days in the future")
+
+        # First look for a Location saved on that day.
+        # That's likely to be SPOT OK message from camp, or a manual entry,
+        # and will be the most accurate.
+        try:
+            locs = Location.objects.filter(timestamp__date=date).order_by("-timestamp")
+            mile = locs[0].closest_mile
+        except IndexError:
+            # If that doesn't exist, look for the latest breadcrumb for the given day
+            # the location is the closest mile to that breadcrumb
+            try:
+                crumbs = Breadcrumb.objects.filter(timestamp__date=date)
+                latest_crumb = crumbs.order_by("-timestamp")[0]
+                mile = HalfmileWaypoint.objects.closest_to(
+                    crumb.point, type=HalfmileWaypoint.MILE_TYPE
+                )
+            except IndexError:
+                mile = None
+
+        if mile is None:
+            raise ValueError(f"Can't create stats for {date} - no data")
+
+        return self.update_or_create(
+            date=date,
+            defaults={"miles_hiked": CANADA_MILE - float(mile.name.replace("-", "."))},
+        )
+
+
+class DailyStats(models.Model):
+    """
+    Stats for a given day.
+
+    Calculated automatically by a task, see XXX.
+
+    Possible future: I could add other stats (like, zeros, did I shower, etc) here???
+    """
+    date = models.DateField()
+    miles_hiked = models.FloatField()
+
+    class Meta:
+        ordering = ["-date"]
+
+    objects = DailyStatsManager()

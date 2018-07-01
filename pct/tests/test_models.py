@@ -1,14 +1,17 @@
-import pytest
 import datetime
-from pct.models import Location, HalfmileWaypoint
+
+import pytest
+import pytz
 from django.contrib.gis.geos import Point
+from django.utils import timezone
+from pct.models import DailyStats, HalfmileWaypoint, Location
 
 
 def test_location_name():
     dt = datetime.datetime(2018, 1, 2, 3, 4, 5)
     p = Point(0, 0)
     mile_waypoint = HalfmileWaypoint(
-        point=p, name="1_5", type=HalfmileWaypoint.MILE_TYPE
+        point=p, name="1-5", type=HalfmileWaypoint.MILE_TYPE
     )
     poi_waypoint = HalfmileWaypoint(
         point=p, name="FakePass", type=HalfmileWaypoint.POI_TYPE
@@ -48,9 +51,9 @@ def waypoints(db):
             name="BridgeOfGods",
             type=HalfmileWaypoint.POI_TYPE,
         ),
-        "mile_2000": HalfmileWaypoint.objects.create(
-            point=Point(-119.571582, 38.205751),
-            name="2000",
+        "mile_2146": HalfmileWaypoint.objects.create(
+            point=Point(-121.888976, 45.658324),
+            name="2146",
             type=HalfmileWaypoint.MILE_TYPE,
         ),
     }
@@ -102,3 +105,9 @@ def test_update_fills_in_mile_from_poi_and_vice_versa(waypoints):
     l = Location.objects.create(closest_mile=waypoints["mile_2630"])
     assert l.closest_poi == waypoints["harts"]
 
+
+def test_daily_stats_from_location(waypoints):
+    ts = pytz.utc.localize(datetime.datetime(2018, 1, 2, 3, 4))
+    l = Location.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
+    s, created = DailyStats.objects.update_or_create_for_date(ts.date())
+    assert s.miles_hiked == pytest.approx(506.6)

@@ -82,4 +82,4 @@ if "DYNO" in os.environ:
     DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
     GDAL_LIBRARY_PATH = os.path.expandvars(os.getenv("GDAL_LIBRARY_PATH"))
     GEOS_LIBRARY_PATH = os.path.expandvars(os.getenv("GEOS_LIBRARY_PATH"))
-
+    os.environ["GDAL_DATA"] = os.path.expandvars(os.getenv("GDAL_DATA"))

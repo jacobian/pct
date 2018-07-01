@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 django = "*"
-"psycopg2-binary" = "*"
 dj-database-url = "*"
 requests = "*"
 gpxpy = "*"
@@ -14,6 +13,7 @@ python-dateutil = "*"
 django-markdownx = "*"
 whitenoise = "*"
 pytest-cov = "*"
+"psycopg2-binary" = "*"
 
 [dev-packages]
 ipython = "*"

@@ -38,7 +38,7 @@ header a:hover {
 
 .hero {
     background-image: url('../images/lake.jpg');
-    height: calc(20vw + 65px);
+    height: calc(15vw + 65px);
     max-height: 400px;
     background-size: 100%;
 }
@@ -52,17 +52,18 @@ header a:hover {
     color: #fff;
     text-align: center;
     font-weight: 100;
-    font-size: 2rem;
+    font-size: 1rem;
     border-top: 1px solid #5a6268;
     border-bottom: 1px solid #5a6268;
+    padding-bottom: 0.4rem;
 }
 
 .stats b {
     font-weight: 900;
-    font-size: 4rem;
+    font-size: 3rem;
     display: block;
-    margin-bottom: -1.5rem;
-    margin-top: -0.8rem;
+    margin-bottom: -1rem;
+    margin-top: -0.5rem;
 }
 
 article {

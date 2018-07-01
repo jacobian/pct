@@ -9,11 +9,11 @@ from django.contrib.gis.geos import Point
 from django.core.exceptions import SuspiciousOperation
 from django.db.models import CharField, Value
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .models import InstagramPost, Update
+from .models import InstagramPost, Update, Post
 
 log = logging.getLogger(__name__)
 
@@ -27,6 +27,8 @@ def index(request):
         update["template"] = f'update_snippets/{update["type"]}.html'
     return render(request, "index.html", {"updates": recent_updates})
 
+def detail(request, slug):
+    return render(request, "detail.html", {"post": get_object_or_404(Post, slug=slug)})
 
 @require_POST
 @csrf_exempt

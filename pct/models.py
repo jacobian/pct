@@ -106,6 +106,7 @@ class Update(models.Model):
 
 class Post(Update):
     title = models.TextField(blank=True)
+    slug = models.SlugField(blank=True, help_text="if this is blank, no individal url for the post will be available")
     text = MarkdownxField()
 
     @property

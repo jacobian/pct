@@ -1,23 +1,13 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 <section class="container mt-5">
-    <article>
-        <small>Mile 452, July 25th, 2018</small>
-        <h2>
-            <a href="">Maecenas faucibus mollis interdum</a>
-        </h2>
-        <p>Vestibulum id ligula porta felis euismod semper. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean eu leo
-            quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Etiam porta sem malesuada magna mollis euismod.</p>
-
-        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum
-            faucibus dolor auctor. Nulla vitae elit libero, a pharetra augue. Etiam porta sem malesuada magna mollis euismod.
-            Donec id elit non mi porta gravida at eget metus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula,
-            eget lacinia odio sem nec elit. Maecenas faucibus mollis interdum.</p>
-
-        <p>Cras mattis consectetur purus sit amet fermentum. Nullam quis risus eget urna mollis ornare vel eu leo. Nullam id
-            dolor id nibh ultricies vehicula ut id elit. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
-            vestibulum.
-        </p>
-    </article>
+    <small>
+        {% if post.closest_mile %}
+            Mile {{ post.closest_mile }}
+        {% endif %}
+        {{ post.timestamp }}
+    </small>
+    {% if post.title %}<h2>{{ post.title }}</h2>{% endif %}
+    <p>{{ post.html }}</p>
 </section>
 {% endblock content %}

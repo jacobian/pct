@@ -8,4 +8,5 @@ urlpatterns = [
     path("", views.index),
     path("instagram-hook/", views.instagram_hook),
     path("markdownx/", include(markdownx.urls)),
+    path("<slug>/", views.detail),
 ]

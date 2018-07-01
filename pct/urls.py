@@ -5,8 +5,8 @@ from . import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", views.index),
+    path("", views.index, name="index"),
     path("instagram-hook/", views.instagram_hook),
     path("markdownx/", include(markdownx.urls)),
-    path("<slug>/", views.detail),
+    path("<slug>/", views.detail, name="post-detail"),
 ]

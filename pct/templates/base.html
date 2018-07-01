@@ -20,17 +20,17 @@
 <body class="pct-home">
     <header>
         <nav class="container navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">JKM on the PCT</a>
+            <a class="navbar-brand" href="https://pct.jacobian.org/">JKM on the PCT</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-md-end" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">About</a>
-                    <a class="nav-item nav-link" href="#">Gear</a>
-                    <a class="nav-item nav-link" href="#">Twitter</a>
-                    <a class="nav-item nav-link" href="#">Instagram</a>
+                    <a class="nav-item nav-link {% if post.slug == 'about' %}active{% endif %}" href="{% url 'post-detail' slug='about' %}">About</a>
+                    <a class="nav-item nav-link {% if post.slug == 'gear' %}active{% endif %}" href="{% url 'post-detail' slug='gear' %}">Gear</a>
+                    <a class="nav-item nav-link" href="https://twitter.com/jacobian">Twitter</a>
+                    <a class="nav-item nav-link" href="https://instagram.com/jacobian">Instagram</a>
                 </div>
             </div>
         </nav>

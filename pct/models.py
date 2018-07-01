@@ -1,14 +1,14 @@
+import requests
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from django.contrib.postgres.fields import JSONField
 from django.db import models
-from django.utils import timezone
+from django.utils import text, timezone
 from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
-import requests
 
 
 class HalfmileWaypointManager(models.Manager):
@@ -58,6 +58,7 @@ class Update(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ["-timestamp"]
 
     timestamp = models.DateTimeField(default=timezone.now)
     point = PointField(blank=True, null=True)
@@ -106,12 +107,21 @@ class Update(models.Model):
 
 class Post(Update):
     title = models.TextField(blank=True)
-    slug = models.SlugField(blank=True, help_text="if this is blank, no individal url for the post will be available")
+    slug = models.SlugField(
+        blank=True,
+        help_text="if this is blank, no individal url for the post will be available",
+    )
     text = MarkdownxField()
 
     @property
     def html(self):
         return mark_safe(markdownify(self.text))
+
+    def __str__(self):
+        if self.title:
+            return self.title
+        else:
+            return text.Truncator(self.text).words(10)
 
 
 class Location(Update):

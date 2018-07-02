@@ -38,7 +38,7 @@ header a:hover {
 
 .hero {
     background-image: url('../images/lake.jpg');
-    height: calc(20vw + 65px);
+    height: calc(20vw + 50px);
     max-height: 400px;
     background-size: 100%;
 }

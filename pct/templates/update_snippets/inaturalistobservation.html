@@ -1,0 +1,15 @@
+<article class="location media">
+    <a href="{{ update.object.url }}">
+        <img class="mr-2" src="{{ update.object.thumbnail_url }}" width=75 height=75 alt="photo of {{ update.object.name }}">
+    </a>
+    <div class="media-body">
+        <small>
+            {% if update.object.closest_mile %}
+            {{ update.object.closest_mile }} &bullet;
+            {% endif %}
+            {{ update.when }}
+        </small>
+
+        <h2><a href="{{ update.object.url }}">{{ update.object.name }}</a></h2>
+    </div>
+</article>

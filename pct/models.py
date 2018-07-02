@@ -157,6 +157,15 @@ class InstagramPost(Update):
     url = models.URLField(max_length=500)
     raw = JSONField()
 
+class iNaturalistObservation(Update):
+    inaturalist_id = models.BigIntegerField(unique=True)
+    name = models.CharField(max_length=500)
+    url = models.URLField(max_length=500)
+    thumbnail_url = models.URLField(max_length=500)
+    raw = JSONField()
+
+    def __str__(self):
+        return self.name
 
 class Breadcrumb(models.Model):
     """

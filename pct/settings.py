@@ -30,6 +30,11 @@ USE_TZ = True
 WSGI_APPLICATION = "pct.wsgi.application"
 ZAPIER_WEBOOK_SECRET = os.environ.get("ZAPIER_WEBHOOK_SECRET", "secret")
 
+INATURALIST = {
+    k: os.environ.get('INATURALIST_' + k.upper(), '')
+    for k in ['client_id', 'client_secret', 'username', 'password']
+}
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",

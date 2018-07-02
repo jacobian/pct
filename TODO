@@ -4,6 +4,9 @@
     - slippy map plus points?
     - green/red line showing progress?
 
+BUGS:
+- think there's a bug w/inat logic: id_above + identified=true means I'll miss things
+ if it's unidentified when fetching an identified object after. so may need different logic there?
+
 MAYBE:
-- fetch from inaturalist api?
 - breadcrumbs: big map display?

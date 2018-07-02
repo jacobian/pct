@@ -1,10 +1,10 @@
 {% extends "base.html" %} {% block content %}
-<section class="container">
+<section class="container-fluid">
     <div class="row">
-        <div class="col-md-6 map-container">
+        <div class="col-md-5 map-container">
 
         </div>
-        <div class="col-md-6 article-container">
+        <div class="col article-container">
             {% for update in updates %} {% include update.template %} {% endfor %}
         </div>
     </div>

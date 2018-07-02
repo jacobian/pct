@@ -74,6 +74,9 @@ article {
     background-image: url('../images/map.jpg');
     background-repeat: no-repeat;
     background-size: 100%;
+    max-height: 100vh;
+    position: sticky;
+    top: 0;
 }
 
 .article-container {
@@ -86,6 +89,10 @@ footer {
     padding-top: 2rem;
     padding-bottom: 2rem;
     text-align: right;
+}
+
+footer a {
+    color: inherit;
 }
 
 .copyright {

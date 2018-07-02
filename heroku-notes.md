@@ -18,7 +18,8 @@ Initial push, config and database migration:
 
 ```
 git push heroku master
-heroku config:set DJANGO_SECRET_KEY: ...
+heroku config:set DJANGO_SECRET_KEY=...
+heroku config:set heroku config:set INATURALIST_CLIENT_ID=... INATURALIST_CLIENT_SECRET=... INATURALIST_USERNAME=... INATURALIST_PASSWORD=...
 heroku run python manage.py migrate
 heroku run python manage.py load_halfmile
 heroku run python manage.py createsuperuser

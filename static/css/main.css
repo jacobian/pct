@@ -44,26 +44,32 @@ header a:hover {
 }
 
 .stats {
+    background-color: #809864;
+    color: #fff;
+    font-size: 1rem;
+    border-top: 1px solid #5a6268;
+    border-bottom: 1px solid #5a6268;
+    padding: 0.4rem 0;
+    text-align: center;
     background-image: url('../images/elevation.png');
     background-repeat: no-repeat;
     background-size: 100%;
     background-position-y: bottom;
-    background-color: #809864;
-    color: #fff;
-    text-align: center;
-    font-weight: 100;
-    font-size: 1rem;
-    border-top: 1px solid #5a6268;
-    border-bottom: 1px solid #5a6268;
-    padding-bottom: 0.4rem;
 }
 
-.stats b {
-    font-weight: 900;
-    font-size: 3rem;
-    display: block;
-    margin-bottom: -1rem;
-    margin-top: -0.5rem;
+@media(min-width: 768px) {
+    .stats {
+        font-weight: 100;
+
+    }
+
+    .stats b {
+        font-weight: 900;
+        font-size: 3rem;
+        display: block;
+        margin-bottom: -1rem;
+        margin-top: -0.5rem;
+    }
 }
 
 article {

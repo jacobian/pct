@@ -12,6 +12,6 @@ class Command(BaseCommand):
         try:
             DailyStats.objects.update_or_create_for_date(today)
         except ValueError as e:
-            self.stdout.write(self.style.WARNING(e))
+            self.stdout.write(self.style.WARNING(str(e)))
         else:
             self.stdout.write(self.style.SUCCESS(f"Updated daily stats for {today}"))

@@ -15,6 +15,7 @@
     <link href="{% static 'bootstrap-4/css/bootstrap-reboot.min.css' %}" rel="stylesheet" property="stylesheet">
     <link href="{% static 'bootstrap-4/css/bootstrap.min.css' %}" rel="stylesheet" property="stylesheet">
     <link href="{% static 'css/main.css' %}" rel="stylesheet" property="stylesheet">
+    {% block extrahead %}{% endblock extrahead %}
 </head>
 
 <body class="pct-home">
@@ -80,6 +81,7 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
 <script src="{% static 'bootstrap-4/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'leaflet/leaflet.js' %}"></script>
 <script>
     // gross hack to work around not being able to apply classes to markdown tables,
     // and bootstrap requiring those classes
@@ -87,4 +89,5 @@
         $("article.post table").addClass("table table-striped");
     });
 </script>
+{% block afterbody %}{% endblock %}
 </html>

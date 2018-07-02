@@ -25,8 +25,22 @@ def index(request):
     recent_updates = combined_recent(50, datetime_field="timestamp", **type_qs_map)
     for update in recent_updates:
         update["template"] = f'update_snippets/{update["type"]}.html'
+
+    try:
+        latest_location = next(
+            filter(None, (u["object"].point for u in recent_updates))
+        )
+    except StopIteration:
+        latest_location = None
+
     return render(
-        request, "index.html", {"updates": recent_updates, "stats": _latest_stats}
+        request,
+        "index.html",
+        {
+            "updates": recent_updates,
+            "stats": _latest_stats,
+            "latest_location": latest_location,
+        },
     )
 
 

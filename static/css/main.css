@@ -83,6 +83,11 @@ article {
     max-height: 100vh;
     position: sticky;
     top: 0;
+    padding-right: 0;
+}
+
+#map {
+    height: 100%;
 }
 
 .article-container {

@@ -1,4 +1,5 @@
 import os
+import datetime
 
 import dj_database_url
 import pathlib
@@ -17,6 +18,7 @@ MARKDOWNX_MARKDOWN_EXTENSIONS = ["extra", "sane_lists"]
 ROOT_URLCONF = "pct.urls"
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", secrets.token_bytes())
 SPOT_FEED_ID = "0GXMGIjTLtOisB0eFv6qb1xOdMaOx2u5m"
+START_DATE = datetime.date(2018, 7, 10)
 STATIC_URL = "/static/"
 STATIC_ROOT = HERE.parent / "staticfiles"
 STATICFILES_DIRS = [HERE.parent / "static"]

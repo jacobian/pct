@@ -1,6 +1,13 @@
 from django.contrib import admin
 from markdownx.admin import MarkdownxModelAdmin
-from .models import HalfmileWaypoint, Post, Location, InstagramPost, Breadcrumb
+from .models import (
+    HalfmileWaypoint,
+    Post,
+    Location,
+    InstagramPost,
+    Breadcrumb,
+    DailyStats,
+)
 from django import forms
 from django.contrib.gis.db.models import PointField
 
@@ -65,3 +72,17 @@ class BreadcrumbAdmin(admin.ModelAdmin):
 
     def point_display(self, breadcrumb):
         return f"({breadcrumb.latitude}, {breadcrumb.longitude})"
+
+
+@admin.register(DailyStats)
+class DailyStatsAdmin(admin.ModelAdmin):
+    list_display = [
+        "date",
+        "miles_hiked",
+        "miles_remaining",
+        "days_elapsed",
+        "miles_per_day",
+        "projected_finish_date",
+    ]
+    readonly_fields = ["date", "miles_hiked"]
+

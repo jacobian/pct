@@ -40,27 +40,28 @@
 
     </section>
 
+
     <section class="stats">
         <div class="container">
             <div class="row">
                 <div class="col-sm">
-                    <b>22</b>
+                    <b>{{ stats.days_elapsed|default:"0" }}</b>
                     days on trail
                 </div>
                 <div class="col-sm">
-                    <b>650</b>
+                    <b>{{ stats.miles_hiked|floatformat|default:"0" }}</b>
                     miles hiked
                 </div>
                 <div class="col-sm">
-                    <b>2000</b>
-                    miles left
+                    <b>{{ stats.miles_remaining|floatformat|default:"2652.6" }}</b>
+                    miles to go
                 </div>
                 <div class="col-sm">
-                    <b>26.2</b>
+                    <b>{{ stats.miles_per_day|floatformat|default:"-" }}</b>
                     miles per day
                 </div>
                 <div class="col-sm">
-                    <b>Nov&nbsp;3</b>
+                    <b>{{ stats.projected_finish_date|date:"M j"|default:"?" }}</b>
                     projected finish
                 </div>
             </div>

@@ -30,5 +30,6 @@ Set up the scheduler:
 ```
 heroku addons:create scheduler:standard
 heroku addons:open scheduler
-# add a scheduled task of `python manage.py load_spot` -- hourly is fine
+# add a scheduled task for `python manage.py load_spot` -- hourly
+# add a scheduled task for `python manage.py update_daily_stats` -- hourly or daily
 ```

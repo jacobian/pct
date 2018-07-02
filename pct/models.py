@@ -1,4 +1,6 @@
+import datetime
 import requests
+from django.conf import settings
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
@@ -225,7 +227,9 @@ class DailyStats(models.Model):
     """
     Stats for a given day.
 
-    Calculated automatically by a task, see XXX.
+    Calculated automatically by a task, see above and the update_daily_stats tasks.
+
+    All the math assumes a SOBO hike.
 
     Possible future: I could add other stats (like, zeros, did I shower, etc) here???
     """
@@ -234,5 +238,23 @@ class DailyStats(models.Model):
 
     class Meta:
         ordering = ["-date"]
+        verbose_name_plural = "daily stats"
 
     objects = DailyStatsManager()
+
+    @property
+    def miles_remaining(self):
+        return CANADA_MILE - self.miles_hiked
+
+    @property
+    def days_elapsed(self):
+        return (self.date - settings.START_DATE).days
+
+    @property
+    def miles_per_day(self):
+        return self.miles_hiked / self.days_elapsed
+
+    @property
+    def projected_finish_date(self):
+        projected_days_remaining = self.miles_remaining / self.miles_per_day
+        return settings.START_DATE + datetime.timedelta(days=projected_days_remaining)

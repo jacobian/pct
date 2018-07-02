@@ -12,7 +12,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
-from .models import InstagramPost, Update, Post
+from .models import InstagramPost, Update, Post, DailyStats
 from .combined_recent import combined_recent
 
 log = logging.getLogger(__name__)
@@ -25,11 +25,24 @@ def index(request):
     recent_updates = combined_recent(50, datetime_field="timestamp", **type_qs_map)
     for update in recent_updates:
         update["template"] = f'update_snippets/{update["type"]}.html'
-    return render(request, "index.html", {"updates": recent_updates})
+    return render(
+        request, "index.html", {"updates": recent_updates, "stats": _latest_stats}
+    )
 
 
 def detail(request, slug):
-    return render(request, "detail.html", {"post": get_object_or_404(Post, slug=slug)})
+    return render(
+        request,
+        "detail.html",
+        {"post": get_object_or_404(Post, slug=slug), "stats": _latest_stats()},
+    )
+
+
+def _latest_stats():
+    try:
+        return DailyStats.objects.latest("date")
+    except DailyStats.DoesNotExist:
+        return None
 
 
 @require_POST

@@ -97,12 +97,12 @@ class Update(models.Model):
             elif self.closest_poi:
                 self.point = self.closest_poi.point
 
-        if not self.closest_mile:
+        if self.point and not self.closest_mile:
             self.closest_mile = HalfmileWaypoint.objects.closest_to(
                 self.point, type=HalfmileWaypoint.MILE_TYPE
             )
 
-        if not self.closest_poi:
+        if self.point and not self.closest_poi:
             self.closest_poi = HalfmileWaypoint.objects.closest_to(
                 self.point, type=HalfmileWaypoint.POI_TYPE
             )

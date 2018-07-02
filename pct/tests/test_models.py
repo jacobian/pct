@@ -4,7 +4,7 @@ import pytest
 import pytz
 from django.contrib.gis.geos import Point
 from django.utils import timezone
-from pct.models import DailyStats, HalfmileWaypoint, Location
+from pct.models import DailyStats, HalfmileWaypoint, Location, Post
 
 
 def test_location_name():
@@ -104,6 +104,11 @@ def test_update_fills_in_mile_from_poi_and_vice_versa(waypoints):
 
     l = Location.objects.create(closest_mile=waypoints["mile_2630"])
     assert l.closest_poi == waypoints["harts"]
+
+
+@pytest.mark.django_db
+def test_update_save_works_without_any_location():
+    p = Post.objects.create(text="Content without a location")
 
 
 def test_daily_stats_from_location(waypoints):

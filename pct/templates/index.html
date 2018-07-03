@@ -23,13 +23,12 @@
         // FIXME: shuold be a bit more dynamic given content, but this'll do for now
         var map = L.map('map').setView([40.224437, -121.350511], 6);
 
-        // see: https://leaflet-extras.github.io/leaflet-providers/preview/#filter=Esri
-        var Esri_NatGeoWorldMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
-            attribution: 'Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC',
-            maxZoom: 16
+        var myTL = L.tileLayer('https://api.mapbox.com/styles/v1/jacobkaplanmoss/cjj50c28o02ve2so59rbgldz1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamFjb2JrYXBsYW5tb3NzIiwiYSI6ImNqYnNjbGRrcDB0MmIyd21rbXRzc3V0b3YifQ.4Kz9dKc86l528aaoiegTqA', {
+            attribution: 'Maps: Mapbox, OpenStreetMaps. PCT line: Halfmile',
+            maxZoom: 13
         });
 
-        Esri_NatGeoWorldMap.addTo(map);
+        myTL.addTo(map);
 
         {% if latest_location %}L.marker([{{ latest_location.y}},{{ latest_location.x }}]).addTo(map);{% endif %}
     </script>

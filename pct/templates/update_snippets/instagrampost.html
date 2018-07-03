@@ -1,9 +1,12 @@
-<article class="instagram">
-    <small>
-        {% if update.object.closest_mile %}
-            {{ update.object.closest_mile }} &bullet;
-        {% endif %}
-        {{ update.when }}
-    </small>
-    {{ update.object.embed_html|safe }}
+<article class="instagram media">
+    <span class='mr-2 material-icons'>photo</span>
+        <div class="media-body">
+        <small>
+            {% if update.object.closest_mile %}
+                {{ update.object.closest_mile }} &bullet;
+            {% endif %}
+            {{ update.when }}
+        </small>
+        {{ update.object.embed_html|safe }}
+    </div>
 </article>

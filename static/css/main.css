@@ -76,6 +76,13 @@ article {
     margin-bottom: 5rem;
 }
 
+.media .mr-2 {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    text-align: center;
+}
+
 .map-container {
     background-image: url('../images/map.jpg');
     background-repeat: no-repeat;

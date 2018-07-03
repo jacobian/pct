@@ -1,10 +1,13 @@
-<article class="post">
-    <small>
-        {% if update.object.closest_mile %}
-            {{ update.object.closest_mile }} &bullet;
-        {% endif %}
-        {{ update.when }}
-    </small>
-    {% if update.object.title %}<h2>{{ update.object.title }}</h2>{% endif %}
-    {{ update.object.html }}
+<article class="post media">
+    <span class='mr-2 material-icons'>notes</span>
+    <div class="media-body">
+        <small>
+            {% if update.object.closest_mile %}
+                {{ update.object.closest_mile }} &bullet;
+            {% endif %}
+            {{ update.when }}
+        </small>
+        {% if update.object.title %}<h2>{{ update.object.title }}</h2>{% endif %}
+        {{ update.object.html }}
+    </div>
 </article>

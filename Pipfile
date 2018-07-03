@@ -19,6 +19,7 @@ pytest-cov = "*"
 ipython = "*"
 jupyterlab = "*"
 pytest-django = "*"
+django-debug-toolbar = "*"
 
 [requires]
 python_version = "3.6"

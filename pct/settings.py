@@ -31,8 +31,8 @@ WSGI_APPLICATION = "pct.wsgi.application"
 ZAPIER_WEBOOK_SECRET = os.environ.get("ZAPIER_WEBHOOK_SECRET", "secret")
 
 INATURALIST = {
-    k: os.environ.get('INATURALIST_' + k.upper(), '')
-    for k in ['client_id', 'client_secret', 'username', 'password']
+    k: os.environ.get("INATURALIST_" + k.upper(), "")
+    for k in ["client_id", "client_secret", "username", "password"]
 }
 
 INSTALLED_APPS = [
@@ -80,6 +80,17 @@ TEMPLATES = [
         },
     }
 ]
+
+if DEBUG:
+    try:
+        import debug_toolbar
+
+        INSTALLED_APPS.append("debug_toolbar")
+        MIDDLEWARE.insert(1, "debug_toolbar.middleware.DebugToolbarMiddleware")
+        INTERNAL_IPS = ["127.0.0.1"]
+    except ImportError:
+        pass
+
 
 # If we're on Heroku, need to do some special stuff to get gis working
 # This is based on the (slightly incorrect) advise from two places:

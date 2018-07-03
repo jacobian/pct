@@ -110,6 +110,14 @@ class Update(models.Model):
         super().save(*args, **kwargs)
 
     @property
+    def latitude(self):
+        return self.point.y
+
+    @property
+    def longitude(self):
+        return self.point.x
+
+    @property
     def location_name(self):
         if self.location_override:
             return self.location_override
@@ -157,6 +165,7 @@ class InstagramPost(Update):
     url = models.URLField(max_length=500)
     raw = JSONField()
 
+
 class iNaturalistObservation(Update):
     inaturalist_id = models.BigIntegerField(unique=True)
     name = models.CharField(max_length=500)
@@ -166,6 +175,7 @@ class iNaturalistObservation(Update):
 
     def __str__(self):
         return self.name
+
 
 class Breadcrumb(models.Model):
     """
@@ -189,11 +199,11 @@ class Breadcrumb(models.Model):
 
     @property
     def latitude(self):
-        return self.point.y
+        return self.point.y if self.point else None
 
     @property
     def longitude(self):
-        return self.point.x
+        return self.point.x if self.point else None
 
     def __str__(self):
         return f"({self.latitude}, {self.longitude}) at {self.timestamp}"

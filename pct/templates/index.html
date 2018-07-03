@@ -19,18 +19,36 @@
 
 
 {% block afterbody %}
+    <script id="data" type="application/json">{{ json_data }}</script>
     <script>
-        // FIXME: shuold be a bit more dynamic given content, but this'll do for now
-        var map = L.map('map').setView([40.224437, -121.350511], 6);
+        $(function() {
+            let data = JSON.parse(document.getElementById('data').innerHTML);
 
-        var myTL = L.tileLayer('https://api.mapbox.com/styles/v1/jacobkaplanmoss/cjj50c28o02ve2so59rbgldz1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamFjb2JrYXBsYW5tb3NzIiwiYSI6ImNqYnNjbGRrcDB0MmIyd21rbXRzc3V0b3YifQ.4Kz9dKc86l528aaoiegTqA', {
-            attribution: 'Maps: Mapbox, OpenStreetMaps. PCT line: Halfmile',
-            maxZoom: 13
+            // TODO: shuold be a bit more dynamic given content, but this'll do for now
+            let map = L.map('map').setView([43, -121.3], 6);
+
+            let myTL = L.tileLayer('https://api.mapbox.com/styles/v1/jacobkaplanmoss/cjj50c28o02ve2so59rbgldz1/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiamFjb2JrYXBsYW5tb3NzIiwiYSI6ImNqYnNjbGRrcDB0MmIyd21rbXRzc3V0b3YifQ.4Kz9dKc86l528aaoiegTqA', {
+                attribution: 'Maps: Mapbox, OpenStreetMaps. PCT line: Halfmile',
+                maxZoom: 14
+            });
+
+            myTL.addTo(map);
+
+            // TODO: this should be a me icon
+            if (data.latest_location) {
+                L.marker(data.latest_location).addTo(map);
+            }
+
+            // TODO: different icons
+            // TODO: cluster?
+            // TODO: too busy?
+            // TODO: highlight/click stuff
+            for (let update of data.updates) {
+                if (update.location) {
+                    L.marker(update.location).addTo(map);
+                }
+            }
         });
-
-        myTL.addTo(map);
-
-        {% if latest_location %}L.marker([{{ latest_location.y}},{{ latest_location.x }}]).addTo(map);{% endif %}
     </script>
 {% endblock afterbody %}
 

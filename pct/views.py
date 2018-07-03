@@ -11,6 +11,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
+from django.utils.safestring import mark_safe
 
 from .models import InstagramPost, Update, Post, DailyStats
 from .combined_recent import combined_recent
@@ -20,27 +21,44 @@ log = logging.getLogger(__name__)
 
 def index(request):
     type_qs_map = {
-        model.__name__.lower(): model.objects.all() for model in Update.__subclasses__()
+        model.__name__.lower(): model.objects.all().select_related(
+            "closest_mile", "closest_poi"
+        )
+        for model in Update.__subclasses__()
     }
     recent_updates = combined_recent(50, datetime_field="timestamp", **type_qs_map)
+
+    # Add a "template" key for rendering a snippet template for each type
     for update in recent_updates:
         update["template"] = f'update_snippets/{update["type"]}.html'
 
+    # Figure out my most recent location - that is, the first update with an assoicated point
     try:
-        latest_location = next(
-            filter(None, (u["object"].point for u in recent_updates))
-        )
+        latest_location = next(u["object"] for u in recent_updates if u["object"].point)
+        latest_location = [latest_location.latitude, latest_location.longitude]
     except StopIteration:
         latest_location = None
+
+    # Construct a JSON blob to stick in the template, which will get read by
+    # the JS code to build out the leaflet map. This is to avoid too much
+    # mixing of template code with JS, which is gnarly.
+    json_updates = []
+    for update in recent_updates:
+        location = (
+            [update["object"].latitude, update["object"].longitude]
+            if update["object"].point
+            else None
+        )
+        json_updates.append({"location": location, "name": str(update["object"])})
+
+    json_data = mark_safe(
+        json.dumps({"updates": json_updates, "latest_location": latest_location})
+    )
 
     return render(
         request,
         "index.html",
-        {
-            "updates": recent_updates,
-            "stats": _latest_stats,
-            "latest_location": latest_location,
-        },
+        {"updates": recent_updates, "stats": _latest_stats(), "json_data": json_data},
     )
 
 

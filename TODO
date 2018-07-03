@@ -1,16 +1,11 @@
 - test with some real data
 - test + optimize index view (select_related needed probably)
 - map improvements:
-    - show the PCT line
-        - can I use the whole gpx? or is that too slow?
-        - done/not-done would be pretty awesome if possible
     - latest location: make it a me icon
-    - is loading the bg image happening even w/map? I think so. if so, remove it? noscript?
-    - injecting templates into JS is ugly, switch to xhr
-    - show more points on the map?
-        - on hover/scroll?
-        - how many points is reasonable?
     - map initial zoom: way out to see overview? or in to see current points?
+    - updates on map:
+        - clickable
+        - cluster? https://github.com/Leaflet/Leaflet.markercluster
 
 BUGS:
 - think there's a bug w/inat logic: id_above + identified=true means I'll miss things

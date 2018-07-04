@@ -114,7 +114,7 @@ Fuel container  |  100g canister  | 7.0 | $5 |
 Utensil  |  Gossamer Gear bamboo spoon | 0.5 | $10 | So much better than a metal spoon
 Ignition  |  Mini bic | 0.4 | $1 | Stove also has piezo, so the bic is a backup
 
-### Hydration
+#### Hydration
 
 **Total: 5.3 oz | $51**
 

@@ -116,3 +116,13 @@ def test_daily_stats_from_location(waypoints):
     l = Location.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
     s, created = DailyStats.objects.update_or_create_for_date(ts.date())
     assert s.miles_hiked == pytest.approx(506.6)
+
+
+def test_post_create_from_location(waypoints):
+    ts = pytz.utc.localize(datetime.datetime(2018, 1, 2, 3, 4))
+    l = Location.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
+    p = Post.objects.create_from_location(l)
+    assert p.timestamp == ts
+    assert p.closest_poi == waypoints["bridge_of_gods"]
+    assert Location.objects.count() == 0
+

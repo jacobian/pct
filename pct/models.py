@@ -137,6 +137,18 @@ class Update(models.Model):
         return f"{self.__class__.__name__} at {self.location_name}"
 
 
+class PostManager(models.Manager):
+
+    def create_from_location(self, location, save=True, delete_location=True):
+        shared_fields = [f.name for f in Update._meta.get_fields()]
+        post = Post(**{f: getattr(location, f) for f in shared_fields})
+        if save:
+            post.save()
+        if delete_location:
+            location.delete()
+        return post
+
+
 class Post(Update):
     title = models.TextField(blank=True)
     slug = models.SlugField(
@@ -144,6 +156,8 @@ class Post(Update):
         help_text="if this is blank, no individal url for the post will be available",
     )
     text = MarkdownxField()
+
+    objects = PostManager()
 
     @property
     def html(self):

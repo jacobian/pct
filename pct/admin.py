@@ -10,6 +10,7 @@ from .models import (
 )
 from django import forms
 from django.contrib.gis.db.models import PointField
+from django.shortcuts import redirect
 
 _base_update_fields = [
     "timestamp",
@@ -56,6 +57,18 @@ class LocationAdmin(admin.ModelAdmin):
     autocomplete_fields = _base_update_autocomplete_fields
     list_display = _base_update_list_display
     formfield_overrides = {PointField: {"widget": forms.TextInput()}}
+    actions = ["convert_to_post"]
+
+    def convert_to_post(self, request, queryset):
+        posts = []
+        for location in queryset:
+            p = Post.objects.create_from_location(location, delete_location=True)
+            posts.append(p)
+
+        if len(posts) == 1:
+            return redirect("admin:pct_post_change", posts[0].id)
+        else:
+            return redirect("admin:pct_post_changelist")
 
 
 @admin.register(InstagramPost)

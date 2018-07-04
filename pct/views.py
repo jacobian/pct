@@ -20,12 +20,13 @@ log = logging.getLogger(__name__)
 
 
 def index(request):
-    type_qs_map = {
-        model.__name__.lower(): model.objects.all().select_related(
-            "closest_mile", "closest_poi"
-        )
-        for model in Update.__subclasses__()
-    }
+    type_qs_map = {}
+    for model in Update.__subclasses__():
+        model_name = model.__name__.lower()
+        qs = model.objects.filter(show_on_timeline=True)
+        qs = qs.select_related("closest_mile", "closest_poi")
+        type_qs_map[model_name] = qs
+
     recent_updates = combined_recent(50, datetime_field="timestamp", **type_qs_map)
 
     # Add a "template" key for rendering a snippet template for each type

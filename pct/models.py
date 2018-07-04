@@ -74,6 +74,7 @@ class Update(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        limit_choices_to={"type": HalfmileWaypoint.MILE_TYPE},
     )
     closest_poi = models.ForeignKey(
         HalfmileWaypoint,
@@ -81,8 +82,10 @@ class Update(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         related_name="+",
+        limit_choices_to={"type": HalfmileWaypoint.POI_TYPE},
     )
     location_override = models.TextField(blank=True, default="")
+    show_on_timeline = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         # Attempt to fill in missing location info based on what's there.

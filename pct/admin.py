@@ -17,6 +17,7 @@ _base_update_fields = [
     "closest_mile",
     "closest_poi",
     "location_override",
+    "show_on_timeline",
 ]
 _base_update_autocomplete_fields = ["closest_mile", "closest_poi"]
 _base_update_list_display = ["timestamp", "location_name"]
@@ -45,6 +46,8 @@ class PostAdmin(MarkdownxModelAdmin):
     fields = ["title", "slug", "text"] + _base_update_fields
     autocomplete_fields = _base_update_autocomplete_fields
     list_display = ["__str__"] + _base_update_list_display
+    save_on_top = True
+    formfield_overrides = {PointField: {"widget": forms.TextInput()}}
 
 
 @admin.register(Location)
@@ -52,6 +55,7 @@ class LocationAdmin(admin.ModelAdmin):
     fields = _base_update_fields
     autocomplete_fields = _base_update_autocomplete_fields
     list_display = _base_update_list_display
+    formfield_overrides = {PointField: {"widget": forms.TextInput()}}
 
 
 @admin.register(InstagramPost)
@@ -60,6 +64,7 @@ class InstagramPostAdmin(admin.ModelAdmin):
     readonly_fields = ["instagram_id", "url", "embed_html", "raw"]
     autocomplete_fields = _base_update_autocomplete_fields
     list_display = ["url"] + _base_update_list_display
+    formfield_overrides = {PointField: {"widget": forms.TextInput()}}
 
 
 @admin.register(Breadcrumb)

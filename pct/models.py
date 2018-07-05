@@ -11,6 +11,7 @@ from django.utils import text, timezone
 from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+from .junkdrawer import camel_to_spaced
 
 # Where is Canda in trail miles?
 # This could be determined from the data but w/e this is easy.
@@ -125,7 +126,7 @@ class Update(models.Model):
         if self.location_override:
             return self.location_override
         elif self.closest_poi:
-            return str(self.closest_poi)
+            return camel_to_spaced(self.closest_poi.name)
         elif self.closest_mile:
             return str(self.closest_mile)
         elif self.point:

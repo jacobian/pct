@@ -26,8 +26,10 @@ def test_location_name():
     l.closest_mile = mile_waypoint
     assert l.location_name == f"Mile 1.5"
 
+    # Camel case --> spacest
+
     l.closest_poi = poi_waypoint
-    assert l.location_name == poi_waypoint.name
+    assert l.location_name == "Fake Pass"
 
     l.location_override = "right here"
     assert l.location_name == "right here"

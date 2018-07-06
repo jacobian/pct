@@ -29,32 +29,28 @@ def index(request):
 
     recent_updates = combined_recent(50, datetime_field="timestamp", **type_qs_map)
 
-    # Add a "template" key for rendering a snippet template for each type
-    for update in recent_updates:
-        update["template"] = f'update_snippets/{update["type"]}.html'
+    # There's a few things we wwant to do with each update, doing this in a
+    # single loop for efficiancy even though it makes the code a bit harder to read
 
-    # Figure out my most recent location - that is, the first update with an assoicated point
-    try:
-        latest_location = next(u["object"] for u in recent_updates if u["object"].point)
-        latest_location = [latest_location.latitude, latest_location.longitude]
-    except StopIteration:
-        latest_location = None
-
-    # Construct a JSON blob to stick in the template, which will get read by
-    # the JS code to build out the leaflet map. This is to avoid too much
-    # mixing of template code with JS, which is gnarly.
     json_updates = []
     for update in recent_updates:
-        location = (
-            [update["object"].latitude, update["object"].longitude]
-            if update["object"].point
-            else None
-        )
-        json_updates.append({"location": location, "name": str(update["object"])})
 
-    json_data = mark_safe(
-        json.dumps({"updates": json_updates, "latest_location": latest_location})
-    )
+        # Add a "template" key for rendering a snippet template for each type
+        update["template"] = f'update_snippets/{update["type"]}.html'
+
+        # If it has a point, stuff it in a JSON blob we'll inject in the template
+        # This avoids needing to monkey with too much mixed JS/Django template
+        if update["object"].point:
+            json_updates.append(
+                {
+                    "location": [update["object"].latitude, update["object"].longitude],
+                    "name": str(update["object"]),
+                    "type": update["type"],
+                    "pk": update["pk"],
+                }
+            )
+
+    json_data = mark_safe(json.dumps({"updates": json_updates}))
 
     return render(
         request,

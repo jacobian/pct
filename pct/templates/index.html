@@ -35,20 +35,22 @@
 
             myTL.addTo(map);
 
-            // TODO: this should be a me icon
-            if (data.latest_location) {
-                L.marker(data.latest_location).addTo(map);
-            }
+            if (data.updates) {
+                // Locations are chronological so the first update will be my most recent location
+                let me_icon = L.divIcon({iconSize: [36,36], className: "me-icon"});
+                L.marker(data.updates.shift().location, {icon: me_icon}).addTo(map);
 
-            // TODO: different icons
-            // TODO: cluster?
-            // TODO: too busy?
-            // TODO: highlight/click stuff
-            for (let update of data.updates) {
-                if (update.location) {
-                    L.marker(update.location).addTo(map);
+                // TODO: different icons
+                // TODO: cluster?
+                // TODO: too busy?
+                // TODO: highlight/click stuff
+                for (let update of data.updates) {
+                    if (update.location) {
+                        L.marker(update.location).addTo(map);
+                    }
                 }
             }
+
         });
     </script>
 {% endblock afterbody %}

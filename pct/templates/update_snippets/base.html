@@ -3,12 +3,12 @@
     {% if update.object.closest_mile %}
         <span class="badge badge-secondary">{{ update.object.closest_mile }}</span>
     {% endif %}
-    <small>{{ update.when }}</small>
-    {% if user.is_staff %}
-        &bullet;
-        <a href="{% url update.obj_meta|admin_urlname:'change' update.pk %}">edit</a>
-        &bullet;
-        <a href="{% url update.obj_meta|admin_urlname:'delete' update.pk %}">delete</a>
-    {% endif %}
+    <small>
+        {{ update.when }}
+        {% if user.is_staff %}
+            &bullet;
+            <a href="{% url update.obj_meta|admin_urlname:'change' update.pk %}">edit</a>
+        {% endif %}
+    </small>
     {% block content %}{% endblock content %}
 </article>

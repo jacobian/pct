@@ -19,9 +19,10 @@ _base_update_fields = [
     "closest_poi",
     "location_override",
     "show_on_timeline",
+    "deleted",
 ]
 _base_update_autocomplete_fields = ["closest_mile", "closest_poi"]
-_base_update_list_display = ["timestamp", "location_name"]
+_base_update_list_display = ["timestamp", "location_name", "deleted"]
 
 
 @admin.register(HalfmileWaypoint)

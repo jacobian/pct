@@ -87,6 +87,7 @@ class Update(models.Model):
     )
     location_override = models.TextField(blank=True, default="")
     show_on_timeline = models.BooleanField(default=True)
+    deleted = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         # Attempt to fill in missing location info based on what's there.

@@ -24,7 +24,7 @@ def index(request):
     type_qs_map = {}
     for model in Update.__subclasses__():
         model_name = model.__name__.lower()
-        qs = model.objects.filter(show_on_timeline=True)
+        qs = model.objects.filter(show_on_timeline=True, deleted=False)
         qs = qs.select_related("closest_mile", "closest_poi")
         type_qs_map[model_name] = qs
 

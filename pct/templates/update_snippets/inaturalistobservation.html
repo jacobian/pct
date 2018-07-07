@@ -1,4 +1,13 @@
 {% extends "update_snippets/base.html" %}
 {% block content %}
-    <h2><a href="{{ update.object.url }}">{{ update.object.name }}</a></h2>
+<h2>{{ update.object.name }}</h2>
+<div>
+    <figure class="figure">
+        <img src="{{ update.object.medium_image_url }}" class="figure-img img-fluid rounded"
+             alt="{{ update.object.name }}">
+        <figcaption class="figure-caption text-right">
+            <a href="{{ update.object.url }}">More details at iNaturalist</a>
+        </figcaption>
+    </figure>
+</div>
 {% endblock content %}

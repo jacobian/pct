@@ -137,28 +137,13 @@ class Update(models.Model):
     def __str__(self):
         return f"{self.__class__.__name__} at {self.location_name}"
 
-
-class PostManager(models.Manager):
-
-    def create_from_location(self, location, save=True, delete_location=True):
-        shared_fields = [f.name for f in Update._meta.get_fields()]
-        post = Post(**{f: getattr(location, f) for f in shared_fields})
-        if save:
-            post.save()
-        if delete_location:
-            location.delete()
-        return post
-
-
 class Post(Update):
     title = models.TextField(blank=True)
     slug = models.SlugField(
         blank=True,
         help_text="if this is blank, no individal url for the post will be available",
     )
-    text = MarkdownxField()
-
-    objects = PostManager()
+    text = MarkdownxField(blank=True)
 
     @property
     def html(self):
@@ -167,14 +152,10 @@ class Post(Update):
     def __str__(self):
         if self.title:
             return self.title
-        else:
+        elif self.text:
             return text.Truncator(self.text).words(10)
-
-
-class Location(Update):
-
-    def __str__(self):
-        return f"At {self.location_name}"
+        else:
+            return f"Checked in at {self.location_name}"
 
 
 class InstagramPost(Update):
@@ -191,6 +172,10 @@ class iNaturalistObservation(Update):
     thumbnail_url = models.URLField(max_length=500)
     raw = JSONField()
 
+    @property
+    def medium_image_url(self):
+        return self.thumbnail_url.replace('square.jpg', 'medium.jpg')
+
     def __str__(self):
         return self.name
 
@@ -206,9 +191,9 @@ class Breadcrumb(models.Model):
     point = PointField()
     raw = JSONField()
 
-    # For "OK" checkins, also save as a location.
-    location = models.ForeignKey(
-        Location,
+    # For "OK" checkins, also save as a post so it shows up on the map.
+    post = models.ForeignKey(
+        Post,
         blank=True,
         null=True,
         related_name="breadcrumbs",
@@ -233,12 +218,12 @@ class DailyStatsManager(models.Manager):
         if date > timezone.now().date():
             raise ValueError("Can't create stats for days in the future")
 
-        # First look for a Location saved on that day.
+        # First look for a Post saved on that day.
         # That's likely to be SPOT OK message from camp, or a manual entry,
         # and will be the most accurate.
         try:
-            locs = Location.objects.filter(timestamp__date=date).order_by("-timestamp")
-            mile = locs[0].closest_mile
+            posts = Post.objects.filter(timestamp__date=date).order_by("-timestamp")
+            mile = posts[0].closest_mile
         except IndexError:
             # If that doesn't exist, look for the latest breadcrumb for the given day
             # the location is the closest mile to that breadcrumb

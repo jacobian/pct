@@ -4,7 +4,7 @@ import pytest
 import pytz
 from django.contrib.gis.geos import Point
 from django.utils import timezone
-from pct.models import DailyStats, HalfmileWaypoint, Location, Post
+from pct.models import DailyStats, HalfmileWaypoint, Post
 
 
 def test_location_name():
@@ -17,22 +17,22 @@ def test_location_name():
         point=p, name="FakePass", type=HalfmileWaypoint.POI_TYPE
     )
 
-    l = Location(timestamp=dt)
-    assert l.location_name == f"unknown location"
+    post = Post(timestamp=dt)
+    assert post.location_name == f"unknown location"
 
-    l.point = p
-    assert l.location_name == str(p)
+    post.point = p
+    assert post.location_name == str(p)
 
-    l.closest_mile = mile_waypoint
-    assert l.location_name == f"Mile 1.5"
+    post.closest_mile = mile_waypoint
+    assert post.location_name == f"Mile 1.5"
 
     # Camel case --> spacest
 
-    l.closest_poi = poi_waypoint
-    assert l.location_name == "Fake Pass"
+    post.closest_poi = poi_waypoint
+    assert post.location_name == "Fake Pass"
 
-    l.location_override = "right here"
-    assert l.location_name == "right here"
+    post.location_override = "right here"
+    assert post.location_name == "right here"
 
 
 @pytest.fixture
@@ -82,30 +82,30 @@ def test_waypoints_closest_to_far_away(waypoints):
 
 def test_update_save_updates_waypoint_from_point(waypoints):
     """if an update has a point but not waypoints, save() should update waypoints based on the closest to that point"""
-    l = Location.objects.create(point=Point(-120.730, 48.720))
-    assert l.closest_mile == waypoints["mile_2630"]
-    assert l.closest_poi == waypoints["harts"]
+    post = Post.objects.create(point=Point(-120.730, 48.720))
+    assert post.closest_mile == waypoints["mile_2630"]
+    assert post.closest_poi == waypoints["harts"]
 
 
 def test_update_save_updates_point_from_waypoint(waypoints):
     """if an update has a waypoint but not a point, save() should update the point based on the waypoint"""
-    l = Location.objects.create(closest_poi=waypoints["harts"])
-    assert l.point == waypoints["harts"].point
+    post = Post.objects.create(closest_poi=waypoints["harts"])
+    assert post.point == waypoints["harts"].point
 
 
 def test_update_doesnt_stomp_existing_points(waypoints):
     """if an update has an existing point, don't stomp on it when saving"""
     p = Point(-120.730, 48.720)
-    l = Location.objects.create(point=p, closest_poi=waypoints["harts"])
-    assert l.point == p
+    post = Post.objects.create(point=p, closest_poi=waypoints["harts"])
+    assert post.point == p
 
 
 def test_update_fills_in_mile_from_poi_and_vice_versa(waypoints):
-    l = Location.objects.create(closest_poi=waypoints["harts"])
-    assert l.closest_mile == waypoints["mile_2630"]
+    post = Post.objects.create(closest_poi=waypoints["harts"])
+    assert post.closest_mile == waypoints["mile_2630"]
 
-    l = Location.objects.create(closest_mile=waypoints["mile_2630"])
-    assert l.closest_poi == waypoints["harts"]
+    post = Post.objects.create(closest_mile=waypoints["mile_2630"])
+    assert post.closest_poi == waypoints["harts"]
 
 
 @pytest.mark.django_db
@@ -115,16 +115,7 @@ def test_update_save_works_without_any_location():
 
 def test_daily_stats_from_location(waypoints):
     ts = pytz.utc.localize(datetime.datetime(2018, 1, 2, 3, 4))
-    l = Location.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
+    post = Post.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
     s, created = DailyStats.objects.update_or_create_for_date(ts.date())
     assert s.miles_hiked == pytest.approx(506.6)
-
-
-def test_post_create_from_location(waypoints):
-    ts = pytz.utc.localize(datetime.datetime(2018, 1, 2, 3, 4))
-    l = Location.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
-    p = Post.objects.create_from_location(l)
-    assert p.timestamp == ts
-    assert p.closest_poi == waypoints["bridge_of_gods"]
-    assert Location.objects.count() == 0
 

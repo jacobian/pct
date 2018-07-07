@@ -3,7 +3,7 @@ import dateutil.parser
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from django.contrib.gis.geos import Point
-from ...models import Breadcrumb, Location
+from ...models import Breadcrumb, Post
 
 # SPOT message types to pay attention to
 BREADCRUMB_MESSAGE_TYPES = ("OK", "TRACK", "UNLIMITED-TRACK", "EXTREME-TRACK")
@@ -56,9 +56,9 @@ class Command(BaseCommand):
                     },
                 )
 
-                # For new "OK" messages, create a Location update also
+                # For new "OK" messages, create a Post update also
                 if created and message["messageType"] == "OK":
-                    crumb.location = Location.objects.create(
+                    crumb.post = Post.objects.create(
                         point=crumb.point, timestamp=crumb.timestamp
                     )
                     crumb.save()

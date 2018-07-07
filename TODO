@@ -7,7 +7,6 @@
         - cluster? https://github.com/Leaflet/Leaflet.markercluster
 - bigger images for inat
 - daily stats: look for other types of updates, too. combined_updates(1)?
-- collapse Location and Post into a single model?
 
 BUGS:
 - think there's a bug w/inat logic: id_above + identified=true means I'll miss things

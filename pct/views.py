@@ -4,6 +4,7 @@ import logging
 
 import pytz
 import requests
+import dateutil.parser
 from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.exceptions import SuspiciousOperation
@@ -13,6 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.safestring import mark_safe
 from django.urls import reverse
+from django.core.paginator import Paginator
 
 from .models import InstagramPost, Update, Post, DailyStats
 from .combined_recent import combined_recent
@@ -28,7 +30,7 @@ def index(request):
         qs = qs.select_related("closest_mile", "closest_poi")
         type_qs_map[model_name] = qs
 
-    recent_updates = combined_recent(50, datetime_field="timestamp", **type_qs_map)
+    recent_updates = combined_recent(100, datetime_field="timestamp", **type_qs_map)
 
     # There's a few things we wwant to do with each update, doing this in a
     # single loop for efficiancy even though it makes the code a bit harder to read

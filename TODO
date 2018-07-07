@@ -1,11 +1,8 @@
-- generate a bunch of fake data to make sure everything looks ok
 - pagination
 - map improvements:
     - updates on map:
-        - make clickable
         - better icons?
         - cluster? https://github.com/Leaflet/Leaflet.markercluster
-- bigger images for inat
 - daily stats: look for other types of updates, too. combined_updates(1)?
 
 BUGS:

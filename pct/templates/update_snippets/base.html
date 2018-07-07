@@ -1,5 +1,5 @@
 {% load admin_urls %}
-<article class="{{ update.type }}">
+<article class="{{ update.type }}" id="{{ update.type }}-{{ update.pk }}">
     {% if update.object.closest_mile %}
         <span class="badge badge-secondary">{{ update.object.closest_mile }}</span>
     {% endif %}

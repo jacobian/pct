@@ -38,15 +38,35 @@
             if (data.updates) {
                 // Locations are chronological so the first update will be my most recent location
                 let me_icon = L.divIcon({iconSize: [36,36], className: "me-icon"});
-                L.marker(data.updates.shift().location, {icon: me_icon}).addTo(map);
 
                 // TODO: different icons
                 // TODO: cluster?
                 // TODO: too busy?
                 // TODO: highlight/click stuff
-                for (let update of data.updates) {
+                for (let [index, update] of data.updates.entries()) {
                     if (update.location) {
-                        L.marker(update.location).addTo(map);
+                        let icon = index == 0 ? me_icon : new L.Icon.Default();
+                        let m = L.marker(update.location, {icon: icon});
+                        m.on('click', function(ev) {
+                            let elem = $('#' + update.type + '-' + update.pk);
+
+                            // unmark any previously-marked element
+                            $(".mark").removeClass('mark');
+
+                            // highlight the new element
+                            elem.addClass('mark');
+
+                            // zoom the map in on the point
+                            map.flyTo(update.location, 10, {duration: 1.0});
+
+                            // scroll the page to the new element
+                            let elem_offset = elem.offset().top;
+                            let elem_height = elem.height();
+                            let window_height = $(window).height();
+                            let new_top =  elem_offset - ((window_height/2) - (elem_height/2));
+                            $('html, body').animate({scrollTop: new_top}, 1000);
+                        })
+                        m.addTo(map);
                     }
                 }
             }

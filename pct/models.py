@@ -138,6 +138,7 @@ class Update(models.Model):
     def __str__(self):
         return f"{self.__class__.__name__} at {self.location_name}"
 
+
 class Post(Update):
     title = models.TextField(blank=True)
     slug = models.SlugField(
@@ -175,7 +176,7 @@ class iNaturalistObservation(Update):
 
     @property
     def medium_image_url(self):
-        return self.thumbnail_url.replace('square.jpg', 'medium.jpg')
+        return self.thumbnail_url.replace("square.jpg", "medium.jpg")
 
     def __str__(self):
         return self.name
@@ -216,9 +217,6 @@ class Breadcrumb(models.Model):
 class DailyStatsManager(models.Manager):
 
     def update_or_create_for_date(self, date):
-        if date > timezone.now().date():
-            raise ValueError("Can't create stats for days in the future")
-
         # First look for a Post saved on that day.
         # That's likely to be SPOT OK message from camp, or a manual entry,
         # and will be the most accurate.

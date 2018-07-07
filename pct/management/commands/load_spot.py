@@ -34,11 +34,11 @@ class Command(BaseCommand):
             f"https://api.findmespot.com/spot-main-web/consumer/rest-api/2.0/public/feed/{settings.SPOT_FEED_ID}/message.json"
         )
         if start:
-            url += f'?start={start}'
+            url += f"?start={start}"
         response = requests.get(url).json()["response"]
         if "errors" in response:
             message = "SPOT API ERROR: [{code}] {text}: {description}".format(
-                **response["error"]
+                **response["errors"]["error"]
             )
             raise CommandError(message)
         return response["feedMessageResponse"]

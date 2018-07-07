@@ -7,6 +7,10 @@
         {% endif %}
         {{ update.object.html }}
     {% else %}
-        <h2>Checked in at {{ update.object.location_name }}</h2>
+        <h2>Checked in near {{ update.object.location_name }}</h2>
+        <blockquote class="blockquote">
+            <p class="mb-0">{{ update.object.closest_poi.description|striptags }}</p>
+            <footer class="blockquote-footer"><a href="Http://pctmap.net/">Halfmile</a></footer>
+        </blockquote>
     {% endif %}
 {% endblock content %}

@@ -33,6 +33,8 @@ h3, .h3 { font-size: 1.5rem; margin-top: 2rem; }
 h4, .h4 { font-size: 1.25rem; margin-top: 2rem; }
 h5, .h5 { font-size: 1rem; margin-top: 2rem; }
 
+.blockquote { font-size: 1rem; }
+
 .navbar-collapse {
     text-align: right;
 }
@@ -121,7 +123,7 @@ article {
     margin-top: 4rem;
 }
 
-footer {
+.page-footer {
     background-color: rgba(41, 69, 93, 0.9);
     color: #fff;
     padding-top: 2rem;
@@ -129,7 +131,7 @@ footer {
     text-align: right;
 }
 
-footer a {
+.page-footer a {
     color: inherit;
 }
 

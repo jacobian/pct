@@ -12,6 +12,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.safestring import mark_safe
+from django.urls import reverse
 
 from .models import InstagramPost, Update, Post, DailyStats
 from .combined_recent import combined_recent
@@ -37,6 +38,10 @@ def index(request):
 
         # Add a "template" key for rendering a snippet template for each type
         update["template"] = f'update_snippets/{update["type"]}.html'
+
+        # Some slightly gross hackery to make it possible to link to admin stuff
+        if request.user.is_staff:
+            update["obj_meta"] = update["object"].__class__._meta
 
         # If it has a point, stuff it in a JSON blob we'll inject in the template
         # This avoids needing to monkey with too much mixed JS/Django template

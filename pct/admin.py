@@ -5,6 +5,7 @@ from .models import (
     Post,
     Location,
     InstagramPost,
+    iNaturalistObservation,
     Breadcrumb,
     DailyStats,
 )
@@ -79,6 +80,13 @@ class InstagramPostAdmin(admin.ModelAdmin):
     list_display = ["url"] + _base_update_list_display
     formfield_overrides = {PointField: {"widget": forms.TextInput()}}
 
+@admin.register(iNaturalistObservation)
+class iNaturalistObservationAdmin(admin.ModelAdmin):
+    fields = _base_update_fields + ['inaturalist_id', 'name', 'url', 'thumbnail_url', 'raw']
+    readonly_fields =  ['inaturalist_id', 'name', 'url', 'thumbnail_url', 'raw']
+    autocomplete_fields = _base_update_autocomplete_fields
+    list_display = ["name"] + _base_update_list_display
+    formfield_overrides = {PointField: {"widget": forms.TextInput()}}
 
 @admin.register(Breadcrumb)
 class BreadcrumbAdmin(admin.ModelAdmin):

@@ -1,12 +1,2 @@
-<article class="instagram media">
-    <span class='icon material-icons'>camera_alt</span>
-        <div class="media-body">
-        <small>
-            {% if update.object.closest_mile %}
-                {{ update.object.closest_mile }} &bullet;
-            {% endif %}
-            {{ update.when }}
-        </small>
-        {{ update.object.embed_html|safe }}
-    </div>
-</article>
+{% extends "update_snippets/base.html" %}
+{% block content %}{{ update.object.embed_html|safe }}{% endblock content %}

@@ -1,15 +1,15 @@
-- test with some real data
-- test + optimize index view (select_related needed probably)
+- generate a bunch of fake data to make sure everything looks ok
+- pagination
 - map improvements:
-    - latest location: make it a me icon
-    - map initial zoom: way out to see overview? or in to see current points?
     - updates on map:
-        - clickable
+        - make clickable
+        - better icons?
         - cluster? https://github.com/Leaflet/Leaflet.markercluster
+- bigger images for inat
+- daily stats: look for other types of updates, too. combined_updates(1)?
+- collapse Location and Post into a single model?
 
 BUGS:
 - think there's a bug w/inat logic: id_above + identified=true means I'll miss things
  if it's unidentified when fetching an identified object after. so may need different logic there?
-
-MAYBE:
-- breadcrumbs: big map display?
+- I think I might still be rendering the map on mobile?

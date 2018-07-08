@@ -13,20 +13,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         inat = self.authenticated_session()
-
-        try:
-            latest_observation = iNaturalistObservation.objects.latest("timestamp")
-            latest_observation_id = latest_observation.inaturalist_id
-        except iNaturalistObservation.DoesNotExist:
-            latest_observation_id = 0
-
         query = urllib.parse.urlencode(
             {
                 "user_login": settings.INATURALIST["username"],
                 "order": "asc",
                 "order_by": "id",
-                "id_above": latest_observation_id,
                 "identified": "true",
+                "quality_grade": "research",
             }
         )
         response = inat.get(f"https://api.inaturalist.org/v1/observations?" + query)

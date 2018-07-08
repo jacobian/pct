@@ -3,9 +3,8 @@
     - updates on map:
         - better icons?
         - cluster? https://github.com/Leaflet/Leaflet.markercluster
+    - would be nice if clicking/scrolling timeline would move map too
 - daily stats: look for other types of updates, too. combined_updates(1)?
 
 BUGS:
-- think there's a bug w/inat logic: id_above + identified=true means I'll miss things
- if it's unidentified when fetching an identified object after. so may need different logic there?
 - I think I might still be rendering the map on mobile?

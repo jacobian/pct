@@ -23,7 +23,7 @@
 <body class="pct-home">
     <header>
         <nav class="container navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="https://pct.jacobian.org/">JKM on the PCT</a>
+            <a class="navbar-brand" href="{% url 'index' %}">JKM on the PCT</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
                 aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -83,7 +83,6 @@
 </body>
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="{% static 'bootstrap-4/js/bootstrap.min.js' %}"></script>
-<script type="text/javascript" src="{% static 'leaflet/leaflet.js' %}"></script>
 <script type="text/javascript" src="{% static 'bigfoot/bigfoot.min.js' %}"></script>
 <script>
     $(function() {

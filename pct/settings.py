@@ -83,7 +83,7 @@ TEMPLATES = [
 
 if DEBUG:
     try:
-        import debug_toolbar
+        import debug_toolbar  # noqa: F401
 
         INSTALLED_APPS.append("debug_toolbar")
         MIDDLEWARE.insert(1, "debug_toolbar.middleware.DebugToolbarMiddleware")

@@ -3,7 +3,6 @@ import datetime
 import pytest
 import pytz
 from django.contrib.gis.geos import Point
-from django.utils import timezone
 from pct.models import DailyStats, HalfmileWaypoint, Post, InstagramPost, Update
 
 
@@ -77,7 +76,7 @@ def test_waypoints_closest_to_far_away(waypoints):
     wp = HalfmileWaypoint.objects.closest_to(
         Point(-116.578046, 33.20829)  # mile 100, very far away
     )
-    assert wp == None
+    assert wp == None  # noqa:E711
 
 
 def test_update_save_updates_waypoint_from_point(waypoints):
@@ -111,11 +110,12 @@ def test_update_fills_in_mile_from_poi_and_vice_versa(waypoints):
 @pytest.mark.django_db
 def test_update_save_works_without_any_location():
     p = Post.objects.create(text="Content without a location")
+    assert p.location_name == "unknown location"
 
 
 def test_daily_stats_from_location(waypoints):
     ts = pytz.utc.localize(datetime.datetime(2018, 1, 2, 3, 4))
-    post = Post.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
+    Post.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
     s, created = DailyStats.objects.update_or_create_for_date(ts.date())
     assert s.miles_hiked == pytest.approx(506.6)
 

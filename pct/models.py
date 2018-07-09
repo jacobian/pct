@@ -1,10 +1,8 @@
 import datetime
 
-import requests
 from django.conf import settings
 from django.contrib.gis.db.models import PointField
 from django.contrib.gis.db.models.functions import Distance
-from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from django.contrib.postgres.fields import JSONField
 from django.db import models

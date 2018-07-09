@@ -4,7 +4,6 @@ import logging
 
 import pytz
 import requests
-import dateutil.parser
 from django.conf import settings
 from django.contrib.gis.geos import Point
 from django.core.exceptions import SuspiciousOperation
@@ -13,8 +12,6 @@ from django.shortcuts import render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.utils.safestring import mark_safe
-from django.urls import reverse
-from django.core.paginator import Paginator
 
 from .models import InstagramPost, Update, Post, DailyStats
 

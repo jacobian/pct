@@ -1,7 +1,6 @@
 import requests
 import urllib.parse
 import dateutil.parser
-from django.utils import timezone
 from django.core.management.base import BaseCommand, CommandError
 from django.conf import settings
 from ...models import iNaturalistObservation

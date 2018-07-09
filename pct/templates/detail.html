@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% block title %}{{ post }} | {{ block.super }}{% endblock %}
+
 {% block content %}
 <section class="container mt-5">
     <article class="post">

@@ -142,3 +142,12 @@ def test_recent_updates():
     names = [update["object"].location_name for update in recent_updates]
     assert names == ["t3", "t2", "t1"]
 
+
+def test_absolute_url_no_slug():
+    p = Post(id=1)
+    assert p.get_absolute_url() == "/#instagrampost-3"
+
+
+def test_absolute_url_slug():
+    p = Post(id=1, slug="foo")
+    assert p.get_absolute_url() == "/foo/"

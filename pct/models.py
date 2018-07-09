@@ -6,6 +6,7 @@ from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.measure import D
 from django.contrib.postgres.fields import JSONField
 from django.db import models
+from django.urls import reverse
 from django.utils import text, timezone
 from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
@@ -126,6 +127,9 @@ class Update(models.Model):
 
         super().save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        return reverse("index") + f"#{self._meta.model_name}-{self.pk}"
+
     @property
     def latitude(self):
         return self.point.y
@@ -171,12 +175,28 @@ class Post(Update):
         else:
             return f"Checked in at {self.location_name}"
 
+    def get_absolute_url(self):
+        if self.slug:
+            return reverse("post-detail", args=[self.slug])
+        else:
+            return super().get_absolute_url()
+
 
 class InstagramPost(Update):
     instagram_id = models.CharField(unique=True, max_length=200)
     embed_html = models.TextField(blank=True)
     url = models.URLField(max_length=500)
     raw = JSONField()
+
+    def __str__(self):
+        if self.location_name != "unknown location":
+            return f"Instageam post near {self.location_name}"
+        else:
+
+            return f"Instagram post at {self.timestamp}"
+
+    def get_absolute_url(self):
+        return self.url
 
 
 class iNaturalistObservation(Update):
@@ -192,6 +212,9 @@ class iNaturalistObservation(Update):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return self.url
 
 
 class Breadcrumb(models.Model):

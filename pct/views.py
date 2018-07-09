@@ -17,20 +17,12 @@ from django.urls import reverse
 from django.core.paginator import Paginator
 
 from .models import InstagramPost, Update, Post, DailyStats
-from .combined_recent import combined_recent
 
 log = logging.getLogger(__name__)
 
 
 def index(request):
-    type_qs_map = {}
-    for model in Update.__subclasses__():
-        model_name = model.__name__.lower()
-        qs = model.objects.filter(show_on_timeline=True, deleted=False)
-        qs = qs.select_related("closest_mile", "closest_poi")
-        type_qs_map[model_name] = qs
-
-    recent_updates = combined_recent(100, datetime_field="timestamp", **type_qs_map)
+    recent_updates = Update.recent_updates(100)
 
     # There's a few things we wwant to do with each update, doing this in a
     # single loop for efficiancy even though it makes the code a bit harder to read

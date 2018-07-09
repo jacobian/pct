@@ -1,4 +1,5 @@
 import datetime
+
 import requests
 from django.conf import settings
 from django.contrib.gis.db.models import PointField
@@ -11,6 +12,8 @@ from django.utils import text, timezone
 from django.utils.safestring import mark_safe
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
+
+from .combined_recent import combined_recent
 from .junkdrawer import camel_to_spaced
 
 # Where is Canda in trail miles?
@@ -88,6 +91,17 @@ class Update(models.Model):
     location_override = models.TextField(blank=True, default="")
     show_on_timeline = models.BooleanField(default=True)
     deleted = models.BooleanField(default=False)
+
+    @classmethod
+    def recent_updates(klass, n=50):
+        type_qs_map = {}
+        for model in Update.__subclasses__():
+            model_name = model.__name__.lower()
+            qs = model.objects.filter(show_on_timeline=True, deleted=False)
+            qs = qs.select_related("closest_mile", "closest_poi")
+            type_qs_map[model_name] = qs
+
+        return combined_recent(100, datetime_field="timestamp", **type_qs_map)
 
     def save(self, *args, **kwargs):
         # Attempt to fill in missing location info based on what's there.
@@ -230,7 +244,7 @@ class DailyStatsManager(models.Manager):
                 crumbs = Breadcrumb.objects.filter(timestamp__date=date)
                 latest_crumb = crumbs.order_by("-timestamp")[0]
                 mile = HalfmileWaypoint.objects.closest_to(
-                    crumb.point, type=HalfmileWaypoint.MILE_TYPE
+                    latest_crumb.point, type=HalfmileWaypoint.MILE_TYPE
                 )
             except IndexError:
                 mile = None

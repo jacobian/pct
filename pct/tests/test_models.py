@@ -4,7 +4,7 @@ import pytest
 import pytz
 from django.contrib.gis.geos import Point
 from django.utils import timezone
-from pct.models import DailyStats, HalfmileWaypoint, Post
+from pct.models import DailyStats, HalfmileWaypoint, Post, InstagramPost, Update
 
 
 def test_location_name():
@@ -118,4 +118,27 @@ def test_daily_stats_from_location(waypoints):
     post = Post.objects.create(timestamp=ts, closest_poi=waypoints["bridge_of_gods"])
     s, created = DailyStats.objects.update_or_create_for_date(ts.date())
     assert s.miles_hiked == pytest.approx(506.6)
+
+
+@pytest.mark.django_db
+def test_recent_updates():
+    ts = pytz.utc.localize(datetime.datetime(2018, 1, 2, 3, 4))
+
+    Post.objects.create(timestamp=ts, location_override="t1")
+
+    ts += datetime.timedelta(minutes=10)
+    InstagramPost.objects.create(
+        timestamp=ts,
+        instagram_id="xxx",
+        url="https://example.com/",
+        location_override="t2",
+        raw={},
+    )
+
+    ts += datetime.timedelta(minutes=10)
+    Post.objects.create(timestamp=ts, location_override="t3")
+
+    recent_updates = Update.recent_updates()
+    names = [update["object"].location_name for update in recent_updates]
+    assert names == ["t3", "t2", "t1"]
 

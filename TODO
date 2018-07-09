@@ -5,6 +5,8 @@
         - cluster? https://github.com/Leaflet/Leaflet.markercluster
     - would be nice if clicking/scrolling timeline would move map too
 - daily stats: look for other types of updates, too. combined_updates(1)?
+- RSS
+    - and feed to twitter/fb?
 
 BUGS:
 - I think I might still be rendering the map on mobile?

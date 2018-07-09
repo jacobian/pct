@@ -19,7 +19,7 @@ class Command(BaseCommand):
                 "order": "asc",
                 "order_by": "id",
                 "identified": "true",
-                "quality_grade": "research",
+                "quality_grade": "casual,research",
             }
         )
         response = inat.get(f"https://api.inaturalist.org/v1/observations?" + query)

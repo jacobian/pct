@@ -190,7 +190,7 @@ class InstagramPost(Update):
 
     def __str__(self):
         if self.location_name != "unknown location":
-            return f"Instageam post near {self.location_name}"
+            return f"Instagram post near {self.location_name}"
         else:
 
             return f"Instagram post at {self.timestamp}"

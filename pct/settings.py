@@ -23,7 +23,7 @@ STATIC_URL = "/static/"
 STATIC_ROOT = HERE.parent / "staticfiles"
 STATICFILES_DIRS = [HERE.parent / "static"]
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-TIME_ZONE = "America/Los_Angeles"
+TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
@@ -98,10 +98,5 @@ if DEBUG:
 # - https://github.com/TrailStash/heroku-geo-buildpack
 if "DYNO" in os.environ:
     DATABASES["default"]["ENGINE"] = "django.contrib.gis.db.backends.postgis"
-    GDAL_LIBRARY_PATH = os.path.expandvars(
-        os.getenv("GDAL_LIBRARY_PATH", "$HOME/.heroku/vendor/lib/libgdal.so")
-    )
-    GEOS_LIBRARY_PATH = os.path.expandvars(
-        os.getenv("GEOS_LIBRARY_PATH", "$HOME/.heroku/vendor/lib/libgeos_c.so")
-    )
-    # os.environ["GDAL_DATA"] = os.path.expandvars(os.getenv("GDAL_DATA"))
+    GDAL_LIBRARY_PATH = os.getenv("GDAL_LIBRARY_PATH")
+    GEOS_LIBRARY_PATH = os.getenv("GEOS_LIBRARY_PATH")

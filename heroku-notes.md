@@ -7,11 +7,10 @@ heroku create
 heroku addons:add heroku-postgresql:hobby-basic
 ```
 
-Use a special GIS buildpack:
+Build GIS libs:
 
 ```
-heroku buildpacks:set https://github.com/TrailStash/heroku-geo-buildpack
-heroku buildpacks:add heroku/python
+heroku config:set BUILD_WITH_GEO_LIBRARIES=1
 ```
 
 Initial push, config and database migration:

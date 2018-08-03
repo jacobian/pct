@@ -308,9 +308,11 @@ class DailyStats(models.Model):
 
     @property
     def miles_per_day(self):
-        return self.miles_hiked / self.days_elapsed
+        return self.miles_hiked / self.days_elapsed if self.days_elapsed else 0
 
     @property
     def projected_finish_date(self):
-        projected_days_remaining = self.miles_remaining / self.miles_per_day
-        return settings.START_DATE + datetime.timedelta(days=projected_days_remaining)
+        if self.miles_per_day:
+            projected_days_remaining = self.miles_remaining / self.miles_per_day
+            return settings.START_DATE + datetime.timedelta(days=projected_days_remaining)
+        return None

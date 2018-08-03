@@ -44,10 +44,12 @@ h5, .h5 { font-size: 1rem; margin-top: 2rem; }
 }
 
 .hero {
-    background-image: url('../images/lake.jpg');
+    background-image: url('../images/header.jpg');
     height: 20vw;
-    max-height: 400px;
+    max-height: 500px;
     background-size: 100%;
+    background-position: top;
+    background-repeat: no-repeat;
 }
 
 .stats {

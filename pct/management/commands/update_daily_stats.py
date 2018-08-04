@@ -7,7 +7,7 @@ class Command(BaseCommand):
     help = "update daily stats for today"
 
     def handle(self, *args, **options):
-        today = timezone.now().date()
+        today = timezone.localdate()
         try:
             DailyStats.objects.update_or_create_for_date(today)
         except ValueError as e:

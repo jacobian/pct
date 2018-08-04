@@ -51,6 +51,7 @@ class PostAdmin(MarkdownxModelAdmin):
     save_on_top = True
     formfield_overrides = {PointField: {"widget": forms.TextInput()}}
 
+
 @admin.register(InstagramPost)
 class InstagramPostAdmin(admin.ModelAdmin):
     fields = _base_update_fields + ["instagram_id", "url", "embed_html", "raw"]
@@ -59,13 +60,21 @@ class InstagramPostAdmin(admin.ModelAdmin):
     list_display = ["url"] + _base_update_list_display
     formfield_overrides = {PointField: {"widget": forms.TextInput()}}
 
+
 @admin.register(iNaturalistObservation)
 class iNaturalistObservationAdmin(admin.ModelAdmin):
-    fields = _base_update_fields + ['inaturalist_id', 'name', 'url', 'thumbnail_url', 'raw']
-    readonly_fields =  ['inaturalist_id', 'name', 'url', 'thumbnail_url', 'raw']
+    fields = _base_update_fields + [
+        "inaturalist_id",
+        "name",
+        "url",
+        "thumbnail_url",
+        "raw",
+    ]
+    readonly_fields = ["inaturalist_id", "name", "url", "thumbnail_url", "raw"]
     autocomplete_fields = _base_update_autocomplete_fields
     list_display = ["name"] + _base_update_list_display
     formfield_overrides = {PointField: {"widget": forms.TextInput()}}
+
 
 @admin.register(Breadcrumb)
 class BreadcrumbAdmin(admin.ModelAdmin):
@@ -89,5 +98,4 @@ class DailyStatsAdmin(admin.ModelAdmin):
         "miles_per_day",
         "projected_finish_date",
     ]
-    readonly_fields = ["date", "miles_hiked"]
 

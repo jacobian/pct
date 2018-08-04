@@ -252,15 +252,22 @@ class Breadcrumb(models.Model):
 class DailyStatsManager(models.Manager):
 
     def update_or_create_for_date(self, date):
-        # First look for a Post saved on that day.
-        # That's likely to be SPOT OK message from camp, or a manual entry,
-        # and will be the most accurate.
-        try:
-            posts = Post.objects.filter(timestamp__date=date).order_by("-timestamp")
-            mile = posts[0].closest_mile
-        except IndexError:
-            # If that doesn't exist, look for the latest breadcrumb for the given day
-            # the location is the closest mile to that breadcrumb
+        mile = None
+
+        # First look for a Post, Instagram, or iNat update from that day
+        for Klass in (Post, InstagramPost, iNaturalistObservation):
+            qs = Klass.objects.filter(timestamp__date=date).order_by('-timestamp')
+            try:
+                mile = qs[0].closest_mile
+            except IndexError:
+                pass
+            else:
+                break
+
+        # If that doesn't exist, try an
+        # If that doesn't exist, look for the latest breadcrumb for the given day
+        # the location is the closest mile to that breadcrumb
+        if not mile:
             try:
                 crumbs = Breadcrumb.objects.filter(timestamp__date=date)
                 latest_crumb = crumbs.order_by("-timestamp")[0]

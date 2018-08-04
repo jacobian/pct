@@ -284,9 +284,10 @@ class DailyStatsManager(models.Manager):
             except IndexError:
                 pass
             else:
-                self.update_or_create(
+                return self.update_or_create(
                     date=date, defaults={"miles_hiked": last_update.miles_hiked}
                 )
+
 
         # Otherwise... who knows
         if mile is None:

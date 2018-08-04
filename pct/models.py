@@ -256,7 +256,7 @@ class DailyStatsManager(models.Manager):
 
         # First look for a Post, Instagram, or iNat update from that day
         for Klass in (Post, InstagramPost, iNaturalistObservation):
-            qs = Klass.objects.filter(timestamp__date=date).order_by('-timestamp')
+            qs = Klass.objects.filter(timestamp__date=date).order_by("-timestamp")
             try:
                 mile = qs[0].closest_mile
             except IndexError:
@@ -277,6 +277,18 @@ class DailyStatsManager(models.Manager):
             except IndexError:
                 mile = None
 
+        # If there's no data -- maybe I didn't hike today? So milkes hiked is just the same as yesterday.
+        if mile is None:
+            try:
+                last_update = self.filter(date__lt=date).order_by("-date")[0]
+            except IndexError:
+                pass
+            else:
+                self.update_or_create(
+                    date=date, defaults={"miles_hiked": last_update.miles_hiked}
+                )
+
+        # Otherwise... who knows
         if mile is None:
             raise ValueError(f"Can't create stats for {date} - no data")
 
@@ -321,5 +333,7 @@ class DailyStats(models.Model):
     def projected_finish_date(self):
         if self.miles_per_day:
             projected_days_remaining = self.miles_remaining / self.miles_per_day
-            return settings.START_DATE + datetime.timedelta(days=projected_days_remaining)
+            return settings.START_DATE + datetime.timedelta(
+                days=projected_days_remaining
+            )
         return None

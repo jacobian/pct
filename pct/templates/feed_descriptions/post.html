@@ -1,1 +1,6 @@
-{{ item.object.html }}
+{% if item.object.text %}
+    {{ item.object.html }}
+{% else %}
+    <p>&ldquo;{{ item.object.closest_poi.description|striptags }}&rdquo;</p>
+    <p>&mdash; <a href="http://pctmap.net/">Halfmile</a></p>
+{% endif %}

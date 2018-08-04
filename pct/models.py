@@ -173,7 +173,7 @@ class Post(Update):
         elif self.text:
             return text.Truncator(self.text).words(10)
         else:
-            return f"Checked in at {self.location_name}"
+            return f"Checked in at {self.location_name} ({self.closest_mile})"
 
     def get_absolute_url(self):
         if self.slug:

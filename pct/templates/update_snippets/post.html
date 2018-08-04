@@ -1,7 +1,7 @@
 {% extends "update_snippets/base.html" %}
 
 {% block content %}
-    {% if update.object.title or object.text %}
+    {% if update.object.title or update.object.text %}
         {% if update.object.title %}
             <h2>{{ update.object.title }}</h2>
         {% endif %}

@@ -288,7 +288,6 @@ class DailyStatsManager(models.Manager):
                     date=date, defaults={"miles_hiked": last_update.miles_hiked}
                 )
 
-
         # Otherwise... who knows
         if mile is None:
             raise ValueError(f"Can't create stats for {date} - no data")

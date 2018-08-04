@@ -10,7 +10,6 @@ from .models import (
 )
 from django import forms
 from django.contrib.gis.db.models import PointField
-from django.shortcuts import redirect
 
 _base_update_fields = [
     "timestamp",

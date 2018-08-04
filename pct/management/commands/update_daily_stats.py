@@ -1,6 +1,5 @@
 from django.utils import timezone
-from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
+from django.core.management.base import BaseCommand
 from ...models import DailyStats
 
 

@@ -192,8 +192,7 @@ class InstagramPost(Update):
         if self.location_name != "unknown location":
             return f"Instagram post near {self.location_name}"
         else:
-
-            return f"Instagram post at {self.timestamp}"
+            return f"Instagram post, {self.timestamp:%A %B %-d, %-I:%M %p}"
 
     def get_absolute_url(self):
         return self.url

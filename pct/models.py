@@ -332,7 +332,7 @@ class DailyStats(models.Model):
     def projected_finish_date(self):
         if self.miles_per_day:
             projected_days_remaining = self.miles_remaining / self.miles_per_day
-            return settings.START_DATE + datetime.timedelta(
+            return timezone.localdate() + datetime.timedelta(
                 days=projected_days_remaining
             )
         return None
